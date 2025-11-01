@@ -1,0 +1,33 @@
+.formulario {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 100%;
+  gap: 0.5rem;
+  box-sizing: border-box;
+  background-color: aqua;
+  overflow: hidden; /* evita que se desborde visualmente */
+}
+
+.input {
+
+  padding: 0.5rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+
+.boton {
+  flex: 0 0 20%;
+  max-width: 15%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}

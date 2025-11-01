@@ -1,0 +1,25 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: rgb(199, 199, 199);
+  width: 100vw;
+}
+
+.navbar :nth-child(1) {
+  flex-basis: 20%;
+  margin: 10px;
+}
+
+.navbar :nth-child(2) {
+  flex-basis: 50%;
+  text-align: center;
+  margin: 10px;
+}
+
+.navbar :nth-child(3) {
+  flex-basis: 35%;
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
