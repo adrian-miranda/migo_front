@@ -1,33 +1,22 @@
-.formulario {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 100%;
-  gap: 0.5rem;
-  box-sizing: border-box;
-  background-color: aqua;
-  overflow: hidden; /* evita que se desborde visualmente */
-}
-
-.input {
-
-  padding: 0.5rem;
-  font-size: 1rem;
-  box-sizing: border-box;
-  text-align: center;
-}
-
-
-.boton {
-  flex: 0 0 20%;
-  max-width: 15%;
-  padding: 0.5rem;
-  font-size: 1rem;
-  box-sizing: border-box;
-  background-color: #007bff;
+.btnIngreso {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btnIngreso:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btnIngreso:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

@@ -1,25 +1,30 @@
 .navbar {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: space-around;
-  background-color: rgb(199, 199, 199);
-  width: 100vw;
+  padding: 15px 30px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
-.navbar :nth-child(1) {
-  flex-basis: 20%;
-  margin: 10px;
+.title {
+  flex: 1;
+  margin-left: 20px;
 }
 
-.navbar :nth-child(2) {
-  flex-basis: 50%;
-  text-align: center;
-  margin: 10px;
+.title h1 {
+  font-size: 24px;
+  margin: 0;
+  color: #333;
+  font-weight: 700;
 }
 
-.navbar :nth-child(3) {
-  flex-basis: 35%;
-  display: flex;
-  justify-content: center;
-  margin: 10px;
+.title h2 {
+  font-size: 14px;
+  margin: 0;
+  color: #777;
+  font-weight: 400;
 }
