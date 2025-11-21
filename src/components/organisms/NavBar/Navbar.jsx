@@ -3,7 +3,8 @@
  * Cambia según el estado de autenticación y rol del usuario
  */
 import React from 'react';
-import { useAuth } from '../../../context/AuthContext';
+//import { useAuth } from '../../../hooks/useAuth';
+import {useAuth} from '../../../context/AuthContext';
 import style from './navbar.module.css';
 import Logo from '../../atoms/Logo/Logo.jsx';
 import Ingreso from '../../molecules/Ingreso/Ingreso.jsx';

@@ -88,4 +88,30 @@ export const authService = {
       throw error;
     }
   },
+
+  /**
+   * Listar técnicos disponibles (no asignados a tickets activos)
+   */
+  listarTecnicosDisponibles: async () => {
+    try {
+      const response = await axiosInstance.get('/auth/tecnicos/disponibles/');
+      return response.data;
+    } catch (error) {
+      console.error('Error al listar técnicos disponibles:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Listar todos los técnicos con su estado
+   */
+  listarTodosTecnicos: async () => {
+    try {
+      const response = await axiosInstance.get('/auth/tecnicos/todos/');
+      return response.data;
+    } catch (error) {
+      console.error('Error al listar todos los técnicos:', error);
+      throw error;
+    }
+  },
 };

@@ -12,7 +12,6 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Cargar usuario desde localStorage al iniciar
   useEffect(() => {
     const cargarUsuario = () => {
       try {
@@ -34,9 +33,6 @@ export const AuthProvider = ({ children }) => {
     cargarUsuario();
   }, []);
 
-  /**
-   * Iniciar sesión
-   */
   const login = async (correo, contraseña) => {
     try {
       setError(null);
@@ -45,7 +41,6 @@ export const AuthProvider = ({ children }) => {
       const data = await authService.login(correo, contraseña);
 
       if (data.success) {
-        // Guardar en estado y localStorage
         setUsuario(data.usuario);
         localStorage.setItem('migo_usuario', JSON.stringify(data.usuario));
         localStorage.setItem('migo_token', data.token);
@@ -68,9 +63,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  /**
-   * Cerrar sesión
-   */
   const logout = async () => {
     try {
       await authService.logout();
@@ -83,38 +75,18 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  /**
-   * Verificar si el usuario tiene un rol específico
-   */
   const tieneRol = (idRol) => {
     return usuario?.rol?.id_roles === idRol;
   };
 
-  /**
-   * Verificar si es administrador
-   */
   const esAdmin = () => tieneRol(3);
-
-  /**
-   * Verificar si es técnico
-   */
   const esTecnico = () => tieneRol(1);
-
-  /**
-   * Verificar si es trabajador
-   */
   const esTrabajador = () => tieneRol(2);
 
-  /**
-   * Obtener nombre del rol
-   */
   const getNombreRol = () => {
     return usuario?.rol?.nombre_rol || '';
   };
 
-  /**
-   * Obtener nombre del cargo
-   */
   const getNombreCargo = () => {
     return usuario?.cargo?.nombre_cargo || '';
   };
@@ -137,9 +109,6 @@ export const AuthProvider = ({ children }) => {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-/**
- * Hook personalizado para usar el contexto de autenticación
- */
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {

@@ -5,6 +5,7 @@ import Navbar from './components/organisms/NavBar/Navbar';
 import Login from './components/pages/Login/Login';
 import ProtectedRoute from './routers/ProtectedRoute';
 import AdminDashboard from './components/pages/Admin/Dashboard';
+import TicketDetail from './components/pages/Admin/TicketDetail';
 import TrabajadorDashboard from './components/pages/Trabajador/Dashboard';
 import './App.css';
 
@@ -25,6 +26,15 @@ function App() {
                 element={
                   <ProtectedRoute rolesPermitidos={[3]}>
                     <AdminDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              
+              <Route
+                path="/admin/tickets/:id"
+                element={
+                  <ProtectedRoute rolesPermitidos={[3]}>
+                    <TicketDetail />
                   </ProtectedRoute>
                 }
               />
