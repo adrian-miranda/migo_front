@@ -7,6 +7,8 @@ import ProtectedRoute from './routers/ProtectedRoute';
 import AdminDashboard from './components/pages/Admin/Dashboard';
 import TicketDetail from './components/pages/Admin/TicketDetail';
 import TrabajadorDashboard from './components/pages/Trabajador/Dashboard';
+import TicketsList from './components/pages/Admin/Tickets/TicketsList';
+import UsuariosList from './components/pages/Admin/Usuarios/UsuariosList';
 import './App.css';
 
 function App() {
@@ -29,12 +31,27 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-              
+              <Route
+                path="/admin/usuarios"
+                element={
+                  <ProtectedRoute rolesPermitidos={[3]}>
+                    <UsuariosList />
+                  </ProtectedRoute>
+                }
+              />
               <Route
                 path="/admin/tickets/:id"
                 element={
                   <ProtectedRoute rolesPermitidos={[3]}>
                     <TicketDetail />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/tickets"
+                element={
+                  <ProtectedRoute rolesPermitidos={[3]}>
+                    <TicketsList />
                   </ProtectedRoute>
                 }
               />
@@ -64,7 +81,7 @@ function App() {
 
               {/* Redirección por defecto */}
               <Route path="/" element={<Navigate to="/login" replace />} />
-              
+
               {/* Ruta 404 */}
               <Route 
                 path="*" 
