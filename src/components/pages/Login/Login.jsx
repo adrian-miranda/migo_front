@@ -1,11 +1,6 @@
-/**
- * Página de Login
- * Maneja la autenticación de usuarios
- */
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { useAuth } from "../../../context/AuthContext";
-import {useAuth} from '../../../context/AuthContext';
+import { useAuth } from '../../../context/AuthContext';
 import style from './Login.module.css';
 
 const Login = () => {
@@ -17,22 +12,23 @@ const Login = () => {
   const { login, isAuthenticated, usuario } = useAuth();
   const navigate = useNavigate();
 
-  // Redirigir si ya está autenticado
   useEffect(() => {
     if (isAuthenticated && usuario) {
       redirigirPorRol(usuario.rol.id_roles);
     }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, usuario]);
 
   const redirigirPorRol = (idRol) => {
     switch (idRol) {
-      case 3: // Administrador
+      case 3:
         navigate('/admin/dashboard', { replace: true });
         break;
-      case 1: // Técnico
+      case 1:
         navigate('/tecnico/dashboard', { replace: true });
         break;
-      case 2: // Trabajador
+      case 2:
         navigate('/trabajador/dashboard', { replace: true });
         break;
       default:
@@ -45,7 +41,6 @@ const Login = () => {
     setError('');
     setLoading(true);
 
-    // Validaciones básicas
     if (!correo || !contraseña) {
       setError('Por favor, completa todos los campos');
       setLoading(false);
@@ -55,7 +50,6 @@ const Login = () => {
     const result = await login(correo, contraseña);
 
     if (result.success) {
-      // La redirección se maneja en el useEffect
       redirigirPorRol(result.data.usuario.rol.id_roles);
     } else {
       setError(result.error || 'Error al iniciar sesión');
