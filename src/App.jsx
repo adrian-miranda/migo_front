@@ -9,6 +9,8 @@ import TicketDetail from './components/pages/Admin/TicketDetail';
 import TrabajadorDashboard from './components/pages/Trabajador/Dashboard';
 import TicketsList from './components/pages/Admin/Tickets/TicketsList';
 import UsuariosList from './components/pages/Admin/Usuarios/UsuariosList';
+import TecnicosList from './components/pages/Admin/Tecnicos/TecnicosList';
+import ReportesGenerator from './components/pages/Admin/Reportes/ReportesGenerator';
 import './App.css';
 
 function App() {
@@ -52,6 +54,22 @@ function App() {
                 element={
                   <ProtectedRoute rolesPermitidos={[3]}>
                     <TicketsList />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/tecnicos"
+                element={
+                  <ProtectedRoute rolesPermitidos={[3]}>
+                    <TecnicosList />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/reportes"
+                element={
+                  <ProtectedRoute rolesPermitidos={[3]}>
+                    <ReportesGenerator />
                   </ProtectedRoute>
                 }
               />

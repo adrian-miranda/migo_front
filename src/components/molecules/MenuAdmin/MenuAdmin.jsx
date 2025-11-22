@@ -16,7 +16,7 @@ const MenuAdmin = ({ usuario, onLogout }) => {
           {usuario?.rol?.nombre_rol || 'Rol'}
         </span>
       </div>
-      
+
       <nav className={style.nav}>
         <Link to="/admin/dashboard" className={style.navLink}>
           Dashboard
@@ -27,11 +27,14 @@ const MenuAdmin = ({ usuario, onLogout }) => {
         <Link to="/admin/tickets" className={style.navLink}>
           Tickets
         </Link>
+        <Link to="/admin/tecnicos" className={style.navLink}>
+          Técnicos
+        </Link>
         <Link to="/admin/reportes" className={style.navLink}>
           Reportes
         </Link>
       </nav>
-      
+
       <button onClick={onLogout} className={style.btnLogout}>
         Cerrar Sesión
       </button>
