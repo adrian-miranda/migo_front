@@ -90,36 +90,32 @@ const TicketsPendientes = () => {
 
   return (
     <div className={style.container}>
-      {/* Header con título */}
-      <div className={style.headerSection}>
-        <button className={style.btnBack} onClick={() => navigate('/trabajador/dashboard')}>
-          ← Volver al Dashboard
-        </button>
-        <div className={style.tituloSeccion}>
-          <h1>⏳ Tickets Pendientes</h1>
-          <p>Tickets en estado Abierto o En Proceso que esperan solución</p>
-        </div>
-      </div>
-
-      {/* Info y botón */}
+      {/* Header */}
       <div className={style.header}>
-        <div className={style.infoTickets}>
-          <span className={style.contador}>{tickets.length}</span>
-          <span className={style.textoContador}>tickets pendientes</span>
+        <div>
+          <button className={style.btnBack} onClick={() => navigate('/trabajador/dashboard')}>
+            ← Volver
+          </button>
+          <h1>Tickets Pendientes</h1>
+          <p>Tickets en estado Abierto o En Proceso que esperan solución</p>
         </div>
         <button className={style.btnNuevo} onClick={() => navigate('/trabajador/nuevo-ticket')}>
           + Nuevo Ticket
         </button>
       </div>
 
-      {/* Tabla - SIN FILTROS NI BUSCADOR */}
+      {/* Contador de tickets */}
+      <div className={style.contador}>
+        <span className={style.numero}>{tickets.length}</span>
+        <span className={style.texto}>tickets pendientes</span>
+      </div>
+
+      {/* Tabla */}
       {tickets.length === 0 ? (
         <div className={style.sinResultados}>
-          <div style={{ fontSize: '60px', marginBottom: '20px' }}>🎉</div>
-          <h2 style={{ color: '#2c3e50', marginBottom: '10px' }}>¡No tienes tickets pendientes!</h2>
-          <p style={{ color: '#7f8c8d', fontSize: '14px' }}>
-            Todos tus tickets han sido resueltos, cerrados o cancelados.
-          </p>
+          <div className={style.emoji}>🎉</div>
+          <h2>¡No tienes tickets pendientes!</h2>
+          <p>Todos tus tickets han sido resueltos, cerrados o cancelados.</p>
         </div>
       ) : (
         <div className={style.tablaContainer}>
@@ -157,9 +153,7 @@ const TicketsPendientes = () => {
                   <td>{formatearFecha(ticket.fecha_creacion)}</td>
                   <td>
                     {ticket.tecnico_asignado?.nombre || (
-                      <span style={{ color: '#e74c3c', fontStyle: 'italic' }}>
-                        Sin asignar
-                      </span>
+                      <span className={style.sinAsignar}>Sin asignar</span>
                     )}
                   </td>
                   <td>

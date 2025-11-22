@@ -1,9 +1,11 @@
+/* Container */
 .container {
   padding: 30px;
   background: #f8f9fa;
   min-height: 100vh;
 }
 
+/* Header */
 .header {
   background: white;
   padding: 25px;
@@ -12,7 +14,7 @@
   margin-bottom: 30px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .btnBack {
@@ -33,7 +35,7 @@
 .header h1 {
   font-size: 28px;
   color: #2c3e50;
-  margin: 0 0 5px 0;
+  margin: 0 0 8px 0;
 }
 
 .header p {
@@ -48,7 +50,7 @@
   border: none;
   padding: 12px 24px;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -58,6 +60,55 @@
 .btnNuevo:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Contador */
+.contador {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.numero {
+  font-size: 36px;
+  font-weight: 700;
+  color: #667eea;
+}
+
+.texto {
+  font-size: 16px;
+  color: #7f8c8d;
+}
+
+/* Sin resultados */
+.sinResultados {
+  background: white;
+  padding: 60px 40px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.emoji {
+  font-size: 60px;
+  margin-bottom: 20px;
+}
+
+.sinResultados h2 {
+  color: #2c3e50;
+  margin: 0 0 10px 0;
+  font-size: 24px;
+}
+
+.sinResultados p {
+  color: #7f8c8d;
+  font-size: 14px;
+  margin: 0;
 }
 
 /* Tabla */
@@ -78,19 +129,21 @@
 }
 
 .tabla th {
-  padding: 12px;
+  padding: 15px;
   text-align: left;
   font-weight: 600;
   color: #2c3e50;
-  font-size: 14px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   border-bottom: 2px solid #e9ecef;
 }
 
 .tabla td {
-  padding: 12px;
+  padding: 15px;
   border-bottom: 1px solid #e9ecef;
-  font-size: 14px;
   color: #495057;
+  font-size: 14px;
 }
 
 .tabla tbody tr:hover {
@@ -100,27 +153,46 @@
 .titulo {
   font-weight: 500;
   color: #2c3e50;
-  max-width: 300px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+}
+
+.sinAsignar {
+  color: #e74c3c;
+  font-style: italic;
 }
 
 /* Tags */
 .categoriaTag {
   display: inline-block;
   padding: 4px 12px;
-  background: #e3f2fd;
-  color: #1976d2;
-  border-radius: 20px;
+  background: #e9ecef;
+  color: #495057;
+  border-radius: 12px;
   font-size: 12px;
   font-weight: 500;
+}
+
+.estadoTag {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.estadoAbierto {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.estadoEnProceso {
+  background: #e3f2fd;
+  color: #1565c0;
 }
 
 .prioridadTag {
   display: inline-block;
   padding: 4px 12px;
-  border-radius: 20px;
+  border-radius: 12px;
   font-size: 12px;
   font-weight: 600;
 }
@@ -145,24 +217,6 @@
   color: #c62828;
 }
 
-.estadoTag {
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.estadoAbierto {
-  background: #ffebee;
-  color: #c62828;
-}
-
-.estadoEnProceso {
-  background: #e3f2fd;
-  color: #1565c0;
-}
-
 /* Acciones */
 .acciones {
   display: flex;
@@ -174,7 +228,7 @@
   background: #667eea;
   color: white;
   border: none;
-  padding: 6px 16px;
+  padding: 6px 12px;
   border-radius: 6px;
   font-size: 13px;
   font-weight: 500;
@@ -183,7 +237,7 @@
 }
 
 .btnVer:hover {
-  background: #764ba2;
+  background: #5568d3;
   transform: translateY(-2px);
 }
 
@@ -204,24 +258,18 @@
   transform: translateY(-2px);
 }
 
-.btnCancelar:disabled,
 .btnCancelarDisabled {
   background: #bdc3c7 !important;
   color: #7f8c8d !important;
   cursor: not-allowed !important;
-  transform: none !important;
   opacity: 0.6;
 }
 
-/* Estados */
-.sinResultados {
-  background: white;
-  padding: 80px 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
+.btnCancelarDisabled:hover {
+  transform: none !important;
 }
 
+/* Loading */
 .loading {
   display: flex;
   justify-content: center;
@@ -242,22 +290,15 @@
     gap: 15px;
   }
 
-  .tabla {
-    font-size: 12px;
-  }
-
-  .tabla th,
-  .tabla td {
-    padding: 8px 6px;
-  }
-
-  .acciones {
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .btnVer,
-  .btnCancelar {
+  .btnNuevo {
     width: 100%;
+  }
+
+  .tablaContainer {
+    overflow-x: auto;
+  }
+
+  .tabla {
+    min-width: 900px;
   }
 }

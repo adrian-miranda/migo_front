@@ -134,7 +134,7 @@ function App() {
                 path="/trabajador/tickets-pendientes"
                 element={
                   <ProtectedRoute rolesPermitidos={[2]}>
-                    <MisTickets />
+                    <TicketsPendientes />  {/* ← CORRECTO */}
                   </ProtectedRoute>
                 }
               />

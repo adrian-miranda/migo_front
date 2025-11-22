@@ -44,22 +44,18 @@ const MisTickets = () => {
   const aplicarFiltros = () => {
     let resultado = [...tickets];
 
-    // Filtro por estado
     if (filtros.estado) {
       resultado = resultado.filter(t => t.estado === filtros.estado);
     }
 
-    // Filtro por prioridad
     if (filtros.prioridad) {
       resultado = resultado.filter(t => t.prioridad === filtros.prioridad);
     }
 
-    // Filtro por categoría
     if (filtros.categoria) {
       resultado = resultado.filter(t => t.categoria === filtros.categoria);
     }
 
-    // Búsqueda por texto
     if (filtros.busqueda) {
       const busqueda = filtros.busqueda.toLowerCase();
       resultado = resultado.filter(t => 
@@ -145,7 +141,6 @@ const MisTickets = () => {
     });
   };
 
-  // Obtener valores únicos para filtros
   const estadosUnicos = [...new Set(tickets.map(t => t.estado))];
   const prioridadesUnicas = [...new Set(tickets.map(t => t.prioridad))];
   const categoriasUnicas = [...new Set(tickets.map(t => t.categoria))];
