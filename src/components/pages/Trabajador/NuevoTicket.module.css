@@ -1,0 +1,194 @@
+/* Container */
+.container {
+  padding: 30px;
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* Header */
+.header {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.btnBack {
+  background: #e9ecef;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 15px;
+  transition: background 0.3s ease;
+}
+
+.btnBack:hover {
+  background: #dee2e6;
+}
+
+.header h1 {
+  font-size: 28px;
+  color: #2c3e50;
+  margin: 0 0 8px 0;
+}
+
+.header p {
+  color: #7f8c8d;
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Form - ANCHO COMPLETO */
+.form {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 100%; /* Ancho completo */
+  max-width: 100%; /* Sin límite de ancho */
+}
+
+.formGroup {
+  margin-bottom: 25px;
+}
+
+.label {
+  display: block;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.required {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.inputError {
+  border-color: #e74c3c;
+}
+
+.inputError:focus {
+  border-color: #e74c3c;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+}
+
+.error {
+  display: block;
+  color: #e74c3c;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.hint {
+  display: block;
+  color: #7f8c8d;
+  font-size: 12px;
+  margin-top: 5px;
+  font-style: italic;
+}
+
+.charCount {
+  text-align: right;
+  font-size: 12px;
+  color: #7f8c8d;
+  margin-top: 5px;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #e9ecef;
+}
+
+.btnCancel,
+.btnSubmit {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btnCancel {
+  background: #e9ecef;
+  color: #495057;
+}
+
+.btnCancel:hover {
+  background: #dee2e6;
+}
+
+.btnSubmit {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btnSubmit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btnSubmit:disabled,
+.btnCancel:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  .form {
+    padding: 20px;
+  }
+
+  .actions {
+    flex-direction: column-reverse;
+  }
+
+  .btnCancel,
+  .btnSubmit {
+    width: 100%;
+  }
+}

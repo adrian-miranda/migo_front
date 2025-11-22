@@ -4,13 +4,19 @@ import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/organisms/NavBar/Navbar';
 import Login from './components/pages/Login/Login';
 import ProtectedRoute from './routers/ProtectedRoute';
+
+// Componentes Admin
 import AdminDashboard from './components/pages/Admin/Dashboard';
 import TicketDetail from './components/pages/Admin/Tickets/TicketDetail';
-import TrabajadorDashboard from './components/pages/Trabajador/Dashboard';
 import TicketsList from './components/pages/Admin/Tickets/TicketsList';
 import UsuariosList from './components/pages/Admin/Usuarios/UsuariosList';
 import TecnicosList from './components/pages/Admin/Tecnicos/TecnicosList';
 import ReportesGenerator from './components/pages/Admin/Reportes/ReportesGenerator';
+
+// Componentes Trabajador
+import TrabajadorDashboard from './components/pages/Trabajador/Dashboard';
+import NuevoTicket from './components/pages/Trabajador/NuevoTicket';
+
 import './App.css';
 
 function App() {
@@ -93,6 +99,14 @@ function App() {
                 element={
                   <ProtectedRoute rolesPermitidos={[2]}>
                     <TrabajadorDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/trabajador/nuevo-ticket"
+                element={
+                  <ProtectedRoute rolesPermitidos={[2]}>
+                    <NuevoTicket />
                   </ProtectedRoute>
                 }
               />

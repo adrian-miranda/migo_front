@@ -1,0 +1,382 @@
+/* Dashboard Container */
+.dashboard {
+  padding: 30px;
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header h1 {
+  font-size: 28px;
+  color: #2c3e50;
+  margin: 0 0 5px 0;
+}
+
+.header p {
+  color: #7f8c8d;
+  margin: 0;
+}
+
+.btnNuevoTicket {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btnNuevoTicket:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Estadísticas Grid */
+.estadisticasGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.tarjeta {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: all 0.3s ease;
+}
+
+.tarjeta:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.tarjetaIcono {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.tarjetaInfo h3 {
+  font-size: 32px;
+  color: #2c3e50;
+  margin: 0 0 5px 0;
+  font-weight: 700;
+}
+
+.tarjetaInfo p {
+  color: #7f8c8d;
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Acciones Rápidas */
+.accionesRapidas {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.accionesRapidas h2 {
+  font-size: 20px;
+  color: #2c3e50;
+  margin: 0 0 20px 0;
+}
+
+.botonesAcciones {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.btnAccion {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border: none;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.btnAccion:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.iconoAccion {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.btnAccion h3 {
+  font-size: 16px;
+  color: #2c3e50;
+  margin: 0 0 5px 0;
+}
+
+.btnAccion p {
+  font-size: 13px;
+  color: #7f8c8d;
+  margin: 0;
+}
+
+/* Últimos Tickets */
+.ultimosTickets {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.seccionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.seccionHeader h2 {
+  font-size: 20px;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.btnVerTodos {
+  background: transparent;
+  border: none;
+  color: #667eea;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.btnVerTodos:hover {
+  color: #764ba2;
+}
+
+/* Sin Tickets */
+.sinTickets {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.sinTickets p {
+  color: #7f8c8d;
+  margin-bottom: 20px;
+}
+
+.btnCrearPrimero {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btnCrearPrimero:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Tabla de Tickets */
+.tablaTickets {
+  overflow-x: auto;
+}
+
+.tablaTickets table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tablaTickets thead {
+  background: #f8f9fa;
+}
+
+.tablaTickets th {
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 14px;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.tablaTickets td {
+  padding: 12px;
+  border-bottom: 1px solid #e9ecef;
+  font-size: 14px;
+  color: #495057;
+}
+
+.tablaTickets tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.tituloTicket {
+  font-weight: 500;
+  color: #2c3e50;
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Tags */
+.categoriaTag {
+  display: inline-block;
+  padding: 4px 12px;
+  background: #e3f2fd;
+  color: #1976d2;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.prioridadTag {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.prioridadBaja {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.prioridadMedia {
+  background: #fff3e0;
+  color: #ef6c00;
+}
+
+.prioridadAlta {
+  background: #fce4ec;
+  color: #c2185b;
+}
+
+.prioridadUrgente {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.estadoTag {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.estadoAbierto {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.estadoEnProceso {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.estadoResuelto {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.estadoCerrado {
+  background: #f5f5f5;
+  color: #616161;
+}
+
+/* Botón Ver */
+.btnVer {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btnVer:hover {
+  background: #764ba2;
+  transform: translateY(-2px);
+}
+
+/* Loading */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  font-size: 18px;
+  color: #7f8c8d;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 15px;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .estadisticasGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .botonesAcciones {
+    grid-template-columns: 1fr;
+  }
+
+  .tablaTickets {
+    font-size: 12px;
+  }
+
+  .tablaTickets th,
+  .tablaTickets td {
+    padding: 8px 6px;
+  }
+}
