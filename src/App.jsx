@@ -16,6 +16,7 @@ import ReportesGenerator from './components/pages/Admin/Reportes/ReportesGenerat
 // Componentes Trabajador
 import TrabajadorDashboard from './components/pages/Trabajador/Dashboard';
 import NuevoTicket from './components/pages/Trabajador/NuevoTicket';
+import TicketDetalle from './components/pages/Trabajador/TicketDetalle';  // ← AGREGADO
 
 import './App.css';
 
@@ -110,6 +111,15 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="/trabajador/tickets/:id"
+                element={
+                  <ProtectedRoute rolesPermitidos={[2]}>
+                    <TicketDetalle />
+                  </ProtectedRoute>
+                }
+              />
+              {/* ↑ RUTA AGREGADA */}
 
               {/* Redirección por defecto */}
               <Route path="/" element={<Navigate to="/login" replace />} />

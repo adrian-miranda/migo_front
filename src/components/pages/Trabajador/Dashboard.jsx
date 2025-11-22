@@ -78,11 +78,38 @@ const cargarDatos = async () => {
   };
 
   const formatearFecha = (fecha) => {
-    return new Date(fecha).toLocaleDateString('es-CL', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    });
+      return new Date(fecha).toLocaleDateString('es-CL', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+    };
+
+    const cancelarTicket = async (idTicket, titulo) => {
+    if (!window.confirm(`¿Está seguro de cancelar el ticket "${titulo}"?\n\nEsta acción no se puede deshacer.`)) {
+      return;
+    }
+
+    try {
+      const userData = JSON.parse(localStorage.getItem('migo_usuario'));
+      
+      const response = await axios.post(
+        `http://localhost:8000/api/tickets/${idTicket}/cancelar/`,
+        { usuario_id: userData.id_usuarios }
+      );
+
+      if (response.data.success) {
+        alert('Ticket cancelado exitosamente');
+        cargarDatos(); // Recargar los datos
+      }
+    } catch (error) {
+      console.error('Error al cancelar ticket:', error);
+      if (error.response?.data?.error) {
+        alert(`Error: ${error.response.data.error}`);
+      } else {
+        alert('Error al cancelar el ticket');
+      }
+    }
   };
 
   if (loading) {
@@ -245,12 +272,22 @@ const cargarDatos = async () => {
                     </td>
                     <td>{formatearFecha(ticket.fecha_creacion)}</td>
                     <td>
-                      <button 
-                        className={style.btnVer}
-                        onClick={() => navigate(`/trabajador/tickets/${ticket.id_ticket}`)}
-                      >
-                        Ver
-                      </button>
+                      <div className={style.acciones}>
+                        <button 
+                          className={style.btnVer}
+                          onClick={() => navigate(`/trabajador/tickets/${ticket.id_ticket}`)}
+                        >
+                          Ver
+                        </button>
+                        <button 
+                          className={`${style.btnCancelar} ${ticket.estado !== 'Abierto' ? style.btnCancelarDisabled : ''}`}
+                          onClick={() => ticket.estado === 'Abierto' && cancelarTicket(ticket.id_ticket, ticket.titulo)}
+                          disabled={ticket.estado !== 'Abierto'}
+                          title={ticket.estado !== 'Abierto' ? 'Solo se pueden cancelar tickets en estado Abierto' : 'Cancelar ticket'}
+                        >
+                          Cancelar Ticket
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}

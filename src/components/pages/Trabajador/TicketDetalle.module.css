@@ -1,0 +1,261 @@
+.container {
+  padding: 30px;
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+.header {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.btnBack {
+  background: #e9ecef;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 15px;
+  transition: background 0.3s ease;
+}
+
+.btnBack:hover {
+  background: #dee2e6;
+}
+
+.headerInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headerInfo h1 {
+  font-size: 28px;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.badges {
+  display: flex;
+  gap: 10px;
+}
+
+.estadoBadge,
+.prioridadBadge {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.estadoAbierto {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.estadoEnProceso {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.estadoResuelto {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.estadoCerrado {
+  background: #f5f5f5;
+  color: #616161;
+}
+
+.prioridadBaja {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.prioridadMedia {
+  background: #fff3e0;
+  color: #ef6c00;
+}
+
+.prioridadAlta {
+  background: #fce4ec;
+  color: #c2185b;
+}
+
+.prioridadUrgente {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.ticketInfo {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.section {
+  padding: 25px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.section:last-child {
+  border-bottom: none;
+}
+
+.section h2 {
+  font-size: 18px;
+  color: #2c3e50;
+  margin: 0 0 20px 0;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.label {
+  font-weight: 600;
+  color: #7f8c8d;
+  font-size: 13px;
+}
+
+.value {
+  color: #2c3e50;
+  font-size: 15px;
+}
+
+.descripcion,
+.solucion {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  color: #495057;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.fechaSolucion {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #7f8c8d;
+  font-style: italic;
+}
+
+.historial {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.historial h2 {
+  font-size: 18px;
+  color: #2c3e50;
+  margin: 0 0 20px 0;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 30px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #e9ecef;
+}
+
+.timelineItem {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.timelineDot {
+  position: absolute;
+  left: -26px;
+  top: 5px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #667eea;
+  border: 3px solid white;
+  box-shadow: 0 0 0 2px #667eea;
+}
+
+.timelineContent {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.timelineHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.timelineEstado {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 14px;
+}
+
+.timelineFecha {
+  font-size: 12px;
+  color: #7f8c8d;
+}
+
+.timelineComentario {
+  color: #495057;
+  font-size: 14px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.loading,
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  font-size: 18px;
+  color: #7f8c8d;
+}
+
+.error {
+  color: #e74c3c;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  .headerInfo {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+}

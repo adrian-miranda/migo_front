@@ -323,6 +323,13 @@
   color: #616161;
 }
 
+/* Acciones en tabla */
+.acciones {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
 /* Botón Ver */
 .btnVer {
   background: #667eea;
@@ -339,6 +346,37 @@
 .btnVer:hover {
   background: #764ba2;
   transform: translateY(-2px);
+}
+
+/* Botón Cancelar */
+.btnCancelar {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btnCancelar:hover:not(:disabled) {
+  background: #c0392b;
+  transform: translateY(-2px);
+}
+
+.btnCancelar:disabled,
+.btnCancelarDisabled {
+  background: #bdc3c7 !important;
+  color: #7f8c8d !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  opacity: 0.6;
+}
+
+.btnCancelar:disabled:hover {
+  transform: none;
 }
 
 /* Loading */
@@ -378,5 +416,15 @@
   .tablaTickets th,
   .tablaTickets td {
     padding: 8px 6px;
+  }
+
+  .acciones {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .btnVer,
+  .btnCancelar {
+    width: 100%;
   }
 }
