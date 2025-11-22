@@ -16,7 +16,9 @@ import ReportesGenerator from './components/pages/Admin/Reportes/ReportesGenerat
 // Componentes Trabajador
 import TrabajadorDashboard from './components/pages/Trabajador/Dashboard';
 import NuevoTicket from './components/pages/Trabajador/NuevoTicket';
-import TicketDetalle from './components/pages/Trabajador/TicketDetalle';  // ← AGREGADO
+import TicketDetalle from './components/pages/Trabajador/TicketDetalle';
+import MisTickets from './components/pages/Trabajador/MisTickets';
+import TicketsPendientes from './components/pages/Trabajador/TicketsPendientes'; 
 
 import './App.css';
 
@@ -116,6 +118,23 @@ function App() {
                 element={
                   <ProtectedRoute rolesPermitidos={[2]}>
                     <TicketDetalle />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/trabajador/mis-tickets"
+                element={
+                  <ProtectedRoute rolesPermitidos={[2]}>
+                    <MisTickets />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/trabajador/tickets-pendientes"
+                element={
+                  <ProtectedRoute rolesPermitidos={[2]}>
+                    <MisTickets />
                   </ProtectedRoute>
                 }
               />

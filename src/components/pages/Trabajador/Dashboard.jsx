@@ -21,41 +21,64 @@ const TrabajadorDashboard = () => {
     cargarDatos();
   }, []);
 
-const cargarDatos = async () => {
-  try {
-    // Obtener usuario de localStorage (usa el nombre correcto: migo_usuario)
-    const userData = JSON.parse(localStorage.getItem('migo_usuario'));
-    
-    if (!userData || !userData.id_usuarios) {
-      console.error('No hay usuario autenticado');
-      navigate('/login');
+  const cargarDatos = async () => {
+    try {
+      const userData = JSON.parse(localStorage.getItem('migo_usuario'));
+      
+      if (!userData || !userData.id_usuarios) {
+        console.error('No hay usuario autenticado');
+        navigate('/login');
+        return;
+      }
+
+      const response = await axios.get(
+        `http://localhost:8000/api/tickets/mis-tickets/?user_id=${userData.id_usuarios}`
+      );
+      
+      const tickets = response.data.tickets || [];
+
+      setEstadisticas({
+        total: tickets.length,
+        abiertos: tickets.filter(t => t.estado === 'Abierto').length,
+        enProceso: tickets.filter(t => t.estado === 'En Proceso').length,
+        resueltos: tickets.filter(t => t.estado === 'Resuelto').length,
+        cerrados: tickets.filter(t => t.estado === 'Cerrado').length
+      });
+
+      setUltimosTickets(tickets.slice(0, 5));
+      setLoading(false);
+    } catch (error) {
+      console.error('Error al cargar datos:', error);
+      setLoading(false);
+    }
+  };
+
+  const cancelarTicket = async (idTicket, titulo) => {
+    if (!window.confirm(`¿Está seguro de cancelar el ticket "${titulo}"?\n\nEsta acción no se puede deshacer.`)) {
       return;
     }
 
-    // Obtener tickets del usuario
-    const response = await axios.get(
-      `http://localhost:8000/api/tickets/mis-tickets/?user_id=${userData.id_usuarios}`
-    );
-    
-    const tickets = response.data.tickets || [];
+    try {
+      const userData = JSON.parse(localStorage.getItem('migo_usuario'));
+      
+      const response = await axios.post(
+        `http://localhost:8000/api/tickets/${idTicket}/cancelar/`,
+        { usuario_id: userData.id_usuarios }
+      );
 
-    // Calcular estadísticas
-    setEstadisticas({
-      total: tickets.length,
-      abiertos: tickets.filter(t => t.estado === 'Abierto').length,
-      enProceso: tickets.filter(t => t.estado === 'En Proceso').length,
-      resueltos: tickets.filter(t => t.estado === 'Resuelto').length,
-      cerrados: tickets.filter(t => t.estado === 'Cerrado').length
-    });
-
-    // Obtener últimos 5 tickets
-    setUltimosTickets(tickets.slice(0, 5));
-    setLoading(false);
-  } catch (error) {
-    console.error('Error al cargar datos:', error);
-    setLoading(false);
-  }
-};
+      if (response.data.success) {
+        alert('Ticket cancelado exitosamente');
+        cargarDatos();
+      }
+    } catch (error) {
+      console.error('Error al cancelar ticket:', error);
+      if (error.response?.data?.error) {
+        alert(`Error: ${error.response.data.error}`);
+      } else {
+        alert('Error al cancelar el ticket');
+      }
+    }
+  };
 
   const getEstadoClass = (estado) => {
     switch (estado) {
@@ -78,38 +101,11 @@ const cargarDatos = async () => {
   };
 
   const formatearFecha = (fecha) => {
-      return new Date(fecha).toLocaleDateString('es-CL', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-      });
-    };
-
-    const cancelarTicket = async (idTicket, titulo) => {
-    if (!window.confirm(`¿Está seguro de cancelar el ticket "${titulo}"?\n\nEsta acción no se puede deshacer.`)) {
-      return;
-    }
-
-    try {
-      const userData = JSON.parse(localStorage.getItem('migo_usuario'));
-      
-      const response = await axios.post(
-        `http://localhost:8000/api/tickets/${idTicket}/cancelar/`,
-        { usuario_id: userData.id_usuarios }
-      );
-
-      if (response.data.success) {
-        alert('Ticket cancelado exitosamente');
-        cargarDatos(); // Recargar los datos
-      }
-    } catch (error) {
-      console.error('Error al cancelar ticket:', error);
-      if (error.response?.data?.error) {
-        alert(`Error: ${error.response.data.error}`);
-      } else {
-        alert('Error al cancelar el ticket');
-      }
-    }
+    return new Date(fecha).toLocaleDateString('es-CL', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
   };
 
   if (loading) {
@@ -203,12 +199,12 @@ const cargarDatos = async () => {
 
           <button 
             className={style.btnAccion}
-            onClick={() => navigate('/trabajador/mis-tickets?estado=Abierto')}
+            onClick={() => navigate('/trabajador/tickets-pendientes')}
           >
-            <span className={style.iconoAccion}>🔔</span>
+            <span className={style.iconoAccion}>⏳</span>
             <div>
               <h3>Tickets Pendientes</h3>
-              <p>Ver tickets sin atender</p>
+              <p>Tickets en espera de solución</p>
             </div>
           </button>
         </div>
@@ -247,7 +243,7 @@ const cargarDatos = async () => {
                   <th>Prioridad</th>
                   <th>Estado</th>
                   <th>Fecha</th>
-                  <th>Acciones</th>
+                  <th style={{ width: '150px' }}>Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -285,7 +281,7 @@ const cargarDatos = async () => {
                           disabled={ticket.estado !== 'Abierto'}
                           title={ticket.estado !== 'Abierto' ? 'Solo se pueden cancelar tickets en estado Abierto' : 'Cancelar ticket'}
                         >
-                          Cancelar Ticket
+                          Cancelar
                         </button>
                       </div>
                     </td>

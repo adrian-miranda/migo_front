@@ -1,0 +1,263 @@
+.container {
+  padding: 30px;
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+.header {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btnBack {
+  background: #e9ecef;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 15px;
+  transition: background 0.3s ease;
+}
+
+.btnBack:hover {
+  background: #dee2e6;
+}
+
+.header h1 {
+  font-size: 28px;
+  color: #2c3e50;
+  margin: 0 0 5px 0;
+}
+
+.header p {
+  color: #7f8c8d;
+  margin: 0;
+  font-size: 14px;
+}
+
+.btnNuevo {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btnNuevo:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Tabla */
+.tablaContainer {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla thead {
+  background: #f8f9fa;
+}
+
+.tabla th {
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 14px;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.tabla td {
+  padding: 12px;
+  border-bottom: 1px solid #e9ecef;
+  font-size: 14px;
+  color: #495057;
+}
+
+.tabla tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.titulo {
+  font-weight: 500;
+  color: #2c3e50;
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Tags */
+.categoriaTag {
+  display: inline-block;
+  padding: 4px 12px;
+  background: #e3f2fd;
+  color: #1976d2;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.prioridadTag {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.prioridadBaja {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.prioridadMedia {
+  background: #fff3e0;
+  color: #ef6c00;
+}
+
+.prioridadAlta {
+  background: #fce4ec;
+  color: #c2185b;
+}
+
+.prioridadUrgente {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.estadoTag {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.estadoAbierto {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.estadoEnProceso {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+/* Acciones */
+.acciones {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.btnVer {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btnVer:hover {
+  background: #764ba2;
+  transform: translateY(-2px);
+}
+
+.btnCancelar {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btnCancelar:hover:not(:disabled) {
+  background: #c0392b;
+  transform: translateY(-2px);
+}
+
+.btnCancelar:disabled,
+.btnCancelarDisabled {
+  background: #bdc3c7 !important;
+  color: #7f8c8d !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  opacity: 0.6;
+}
+
+/* Estados */
+.sinResultados {
+  background: white;
+  padding: 80px 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  font-size: 18px;
+  color: #7f8c8d;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .tabla {
+    font-size: 12px;
+  }
+
+  .tabla th,
+  .tabla td {
+    padding: 8px 6px;
+  }
+
+  .acciones {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .btnVer,
+  .btnCancelar {
+    width: 100%;
+  }
+}
