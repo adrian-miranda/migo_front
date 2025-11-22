@@ -4,8 +4,8 @@
  */
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ticketsService } from '../../../api/ticketsService';
-import { authService } from '../../../api/authService';
+import { ticketsService } from '../../../../api/ticketsService';
+import { authService } from '../../../../api/authService';
 import style from './TicketDetail.module.css';
 
 const TicketDetail = () => {
@@ -28,47 +28,47 @@ const TicketDetail = () => {
   });
 
   const cargarDatos = useCallback(async () => {
-  try {
-    setLoading(true);
-    setError(null);
+    try {
+      setLoading(true);
+      setError(null);
 
-    // Cargar ticket, historial, técnicos y estados
-    const [ticketRes, historialRes, tecnicosRes, estadosRes] =
-      await Promise.all([
-        ticketsService.obtenerTicket(id),
-        ticketsService.obtenerHistorial(id),
-        authService.listarTodosTecnicos(),
-        ticketsService.getEstados(),
-      ]);
+      // Cargar ticket, historial, técnicos y estados
+      const [ticketRes, historialRes, tecnicosRes, estadosRes] =
+        await Promise.all([
+          ticketsService.obtenerTicket(id),
+          ticketsService.obtenerHistorial(id),
+          authService.listarTodosTecnicos(),
+          ticketsService.getEstados(),
+        ]);
 
-    if (ticketRes.success) {
-      setTicket(ticketRes.ticket);
-      setFormData({
-        tecnico_asignado_id: ticketRes.ticket.tecnico_asignado?.id || '',
-        estado_id: ticketRes.ticket.estado.id_estado_ticket,
-        solucion: ticketRes.ticket.solucion || '',
-      });
+      if (ticketRes.success) {
+        setTicket(ticketRes.ticket);
+        setFormData({
+          tecnico_asignado_id: ticketRes.ticket.tecnico_asignado?.id || '',
+          estado_id: ticketRes.ticket.estado.id_estado_ticket,
+          solucion: ticketRes.ticket.solucion || '',
+        });
+      }
+
+      if (historialRes.success) {
+        setHistorial(historialRes.historial);
+      }
+
+      if (tecnicosRes.success) {
+        setTecnicos(tecnicosRes.tecnicos);
+      }
+
+      if (estadosRes.success) {
+        setEstados(estadosRes.estados);
+      }
+
+      setLoading(false);
+    } catch (err) {
+      console.error('Error al cargar datos:', err);
+      setError('Error al cargar el ticket');
+      setLoading(false);
     }
-
-    if (historialRes.success) {
-      setHistorial(historialRes.historial);
-    }
-
-    if (tecnicosRes.success) {
-      setTecnicos(tecnicosRes.tecnicos);
-    }
-
-    if (estadosRes.success) {
-      setEstados(estadosRes.estados);
-    }
-
-    setLoading(false);
-  } catch (err) {
-    console.error('Error al cargar datos:', err);
-    setError('Error al cargar el ticket');
-    setLoading(false);
-  }
-}, [id]);
+  }, [id]);
 
   useEffect(() => {
     cargarDatos();
@@ -94,6 +94,27 @@ const TicketDetail = () => {
     e.preventDefault();
 
     try {
+      // Obtener el estado seleccionado
+      const estadoSeleccionado = estados.find(
+        est => est.id_estado_ticket === parseInt(formData.estado_id)
+      );
+
+      // Validar que si cambia a Resuelto o Cerrado, debe tener solución
+      if (estadoSeleccionado && 
+          (estadoSeleccionado.nombre_estado === 'Resuelto' || 
+           estadoSeleccionado.nombre_estado === 'Cerrado')) {
+        
+        if (!formData.solucion || formData.solucion.trim() === '') {
+          alert('Debe ingresar una solución antes de cambiar el estado a "' + estadoSeleccionado.nombre_estado + '"');
+          return;
+        }
+
+        if (formData.solucion.trim().length < 10) {
+          alert('La solución debe tener al menos 10 caracteres');
+          return;
+        }
+      }
+
       setUpdating(true);
 
       const dataToUpdate = {};
@@ -151,6 +172,20 @@ const TicketDetail = () => {
       minute: '2-digit',
     });
   };
+
+  // Verificar si el ticket está cerrado o resuelto
+  const isTicketClosed = ticket && (
+    ticket.estado.nombre_estado === 'Resuelto' || 
+    ticket.estado.nombre_estado === 'Cerrado'
+  );
+
+  // Verificar si el estado seleccionado requiere solución
+  const estadoSeleccionado = estados.find(
+    est => est.id_estado_ticket === parseInt(formData.estado_id)
+  );
+  const requiereSolucion = estadoSeleccionado && 
+    (estadoSeleccionado.nombre_estado === 'Resuelto' || 
+     estadoSeleccionado.nombre_estado === 'Cerrado');
 
   if (loading) {
     return (
@@ -325,34 +360,42 @@ const TicketDetail = () => {
           <div className={style.card}>
             <h2 className={style.cardTitle}>Actualizar Ticket</h2>
 
+            {isTicketClosed && (
+              <div className={style.alertInfo}>
+                ℹ️ Este ticket está {ticket.estado.nombre_estado.toLowerCase()} y no puede ser modificado
+              </div>
+            )}
+
             <form onSubmit={handleActualizar} className={style.form}>
               {/* Asignar técnico */}
-              {/* Asignar técnico */}
-            <div className={style.formGroup}>
-            <label htmlFor="tecnico_asignado_id">Asignar Técnico:</label>
-            <select
-                id="tecnico_asignado_id"
-                name="tecnico_asignado_id"
-                value={formData.tecnico_asignado_id}
-                onChange={handleInputChange}
-                className={style.select}
-            >
-                <option value="">Sin asignar</option>
-                {tecnicos.map((tecnico) => (
-                <option 
-                    key={tecnico.id_usuarios} 
-                    value={tecnico.id_usuarios}
-                    disabled={!tecnico.disponible}
+              <div className={style.formGroup}>
+                <label htmlFor="tecnico_asignado_id">Asignar Técnico:</label>
+                <select
+                  id="tecnico_asignado_id"
+                  name="tecnico_asignado_id"
+                  value={formData.tecnico_asignado_id}
+                  onChange={handleInputChange}
+                  className={style.select}
+                  disabled={isTicketClosed}
                 >
-                    {tecnico.nombre_completo} - {tecnico.nombre_cargo}
-                    {!tecnico.disponible && ` (Ocupado - ${tecnico.tickets_activos} ticket${tecnico.tickets_activos > 1 ? 's' : ''})`}
-                </option>
-                ))}
-            </select>
-            <p className={style.hint}>
-                {tecnicos.filter(t => t.disponible).length} técnicos disponibles de {tecnicos.length} totales
-            </p>
-            </div>
+                  <option value="">Sin asignar</option>
+                  {tecnicos.map((tecnico) => (
+                    <option 
+                      key={tecnico.id_usuarios} 
+                      value={tecnico.id_usuarios}
+                      disabled={!tecnico.disponible}
+                    >
+                      {tecnico.nombre_completo} - {tecnico.nombre_cargo}
+                      {!tecnico.disponible && ` (Ocupado - ${tecnico.tickets_activos} ticket${tecnico.tickets_activos > 1 ? 's' : ''})`}
+                    </option>
+                  ))}
+                </select>
+                {!isTicketClosed && (
+                  <p className={style.hint}>
+                    {tecnicos.filter(t => t.disponible).length} técnicos disponibles de {tecnicos.length} totales
+                  </p>
+                )}
+              </div>
 
               {/* Cambiar estado */}
               <div className={style.formGroup}>
@@ -363,6 +406,7 @@ const TicketDetail = () => {
                   value={formData.estado_id}
                   onChange={handleInputChange}
                   className={style.select}
+                  disabled={isTicketClosed}
                 >
                   {estados.map((estado) => (
                     <option
@@ -377,21 +421,32 @@ const TicketDetail = () => {
 
               {/* Solución */}
               <div className={style.formGroup}>
-                <label htmlFor="solucion">Solución:</label>
+                <label htmlFor="solucion">
+                  Solución: {requiereSolucion && <span className={style.required}>*</span>}
+                </label>
                 <textarea
                   id="solucion"
                   name="solucion"
                   value={formData.solucion}
                   onChange={handleInputChange}
-                  className={style.textarea}
+                  className={`${style.textarea} ${requiereSolucion ? style.required : ''}`}
                   rows="6"
-                  placeholder="Describe la solución aplicada..."
+                  placeholder={requiereSolucion 
+                    ? "La solución es obligatoria para cambiar a Resuelto o Cerrado (mínimo 10 caracteres)..."
+                    : "Describe la solución aplicada..."}
+                  disabled={isTicketClosed}
+                  required={requiereSolucion}
                 />
+                {requiereSolucion && !isTicketClosed && (
+                  <p className={style.hintRequired}>
+                    ⚠️ Debes ingresar una solución para cambiar el estado a "{estadoSeleccionado.nombre_estado}"
+                  </p>
+                )}
               </div>
 
               <button
                 type="submit"
-                disabled={updating}
+                disabled={updating || isTicketClosed}
                 className={style.btnSubmit}
               >
                 {updating ? 'Actualizando...' : 'Guardar Cambios'}
