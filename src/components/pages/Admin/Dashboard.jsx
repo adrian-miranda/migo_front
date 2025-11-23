@@ -142,11 +142,18 @@ const AdminDashboard = () => {
             subtitle="Siendo atendidos"
           />
           <StatsCard
-            title="Resueltos"
-            value={estadisticas.por_estado.resueltos}
+            title="Completados"
+            value={(estadisticas.por_estado.resueltos || 0) + (estadisticas.por_estado.cerrados || 0)}
             icon="✅"
             color="#2ecc71"
-            subtitle="Esperando cierre"
+            subtitle={`Resueltos sin calificar (${estadisticas.por_estado.resueltos || 0}) + Cerrados calificados (${estadisticas.por_estado.cerrados || 0})`}
+          />
+          <StatsCard
+            title="Cancelados"
+            value={estadisticas.por_estado.cancelados || 0}
+            icon="🚫"
+            color="#e74c3c"
+            subtitle="Tickets no completados"
           />
         </div>
       )}

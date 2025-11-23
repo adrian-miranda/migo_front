@@ -19,27 +19,30 @@ const EstadosChart = ({ estadisticas }) => {
   }
 
   const data = {
-    labels: ['Abiertos', 'En Proceso', 'Resueltos', 'Cerrados'],
+    labels: ['Abiertos', 'En Proceso', 'Resueltos no calificados', 'Cerrados calificados', 'Cancelados'],
     datasets: [
       {
         label: 'Tickets',
         data: [
-          estadisticas.por_estado.abiertos,
-          estadisticas.por_estado.en_proceso,
-          estadisticas.por_estado.resueltos,
-          estadisticas.por_estado.cerrados,
+          estadisticas.por_estado.abiertos || 0,
+          estadisticas.por_estado.en_proceso || 0,
+          estadisticas.por_estado.resueltos || 0,
+          estadisticas.por_estado.cerrados || 0,
+          estadisticas.por_estado.cancelados || 0,
         ],
         backgroundColor: [
           '#3498db', // Azul - Abierto
           '#f39c12', // Naranja - En Proceso
           '#2ecc71', // Verde - Resuelto
-          '#95a5a6', // Gris - Cerrado
+          '#9b59b6', // Morado - Cerrado
+          '#e74c3c', // Rojo - Cancelado
         ],
         borderColor: [
           '#2980b9',
           '#e67e22',
           '#27ae60',
-          '#7f8c8d',
+          '#8e44ad',
+          '#c0392b',
         ],
         borderWidth: 2,
       },
@@ -52,11 +55,14 @@ const EstadosChart = ({ estadisticas }) => {
     plugins: {
       legend: {
         position: 'bottom',
+        align: 'center',
         labels: {
-          padding: 15,
+          padding: 12,
           font: {
-            size: 12,
+            size: 11,
           },
+          boxWidth: 14,
+          boxHeight: 14,
         },
       },
       tooltip: {
@@ -65,8 +71,19 @@ const EstadosChart = ({ estadisticas }) => {
             const label = context.label || '';
             const value = context.parsed || 0;
             const total = context.dataset.data.reduce((a, b) => a + b, 0);
-            const percentage = ((value / total) * 100).toFixed(1);
-            return `${label}: ${value} (${percentage}%)`;
+            const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+            
+            // Mostrar nombre completo en tooltip
+            const nombresCompletos = {
+              'Abiertos': 'Abiertos',
+              'En Proceso': 'En Proceso',
+              'Resueltos': 'Resueltos - No Calificado',
+              'Cerrados': 'Cerrados - Calificados',
+              'Cancelados': 'Cancelados'
+            };
+            
+            const nombreCompleto = nombresCompletos[label] || label;
+            return `${nombreCompleto}: ${value} (${percentage}%)`;
           },
         },
       },
