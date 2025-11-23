@@ -20,6 +20,12 @@ import TicketDetalle from './components/pages/Trabajador/TicketDetalle';
 import MisTickets from './components/pages/Trabajador/MisTickets';
 import TicketsPendientes from './components/pages/Trabajador/TicketsPendientes'; 
 
+// Componentes Técnico
+import TecnicoDashboard from './components/pages/Tecnico/Dashboard';
+import TicketDetalleTecnico from './components/pages/Tecnico/TicketDetalle';
+import HistorialTecnico from './components/pages/Tecnico/Historial';
+import TicketsAsignadosTecnico from './components/pages/Tecnico/TicketsAsignados';
+
 import './App.css';
 
 function App() {
@@ -88,14 +94,36 @@ function App() {
                 path="/tecnico/dashboard"
                 element={
                   <ProtectedRoute rolesPermitidos={[1]}>
-                    <div style={{ padding: '40px' }}>
-                      <h1>Dashboard de Técnico</h1>
-                      <p>En desarrollo...</p>
-                    </div>
+                    <TecnicoDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              
+              <Route
+                path="/tecnico/ticket/:id"
+                element={
+                  <ProtectedRoute rolesPermitidos={[1]}>
+                    <TicketDetalleTecnico />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/tecnico/historial"
+                element={
+                  <ProtectedRoute rolesPermitidos={[1]}>
+                    <HistorialTecnico />
                   </ProtectedRoute>
                 }
               />
 
+              <Route
+                path="/tecnico/tickets-asignados"
+                element={
+                  <ProtectedRoute rolesPermitidos={[1]}>
+                    <TicketsAsignadosTecnico />
+                  </ProtectedRoute>
+                }
+              />
               {/* Rutas protegidas - Trabajador */}
               <Route
                 path="/trabajador/dashboard"

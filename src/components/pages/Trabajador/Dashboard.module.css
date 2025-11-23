@@ -46,6 +46,27 @@
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
 
+.headerButtons {
+  display: flex;
+  gap: 15px;
+}
+
+.btnRefresh {
+  background: #ecf0f1;
+  color: #2c3e50;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btnRefresh:hover {
+  background: #bdc3c7;
+}
+
 /* Estadísticas Grid */
 .estadisticasGrid {
   display: grid;

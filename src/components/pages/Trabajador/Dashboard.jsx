@@ -23,40 +23,41 @@ const TrabajadorDashboard = () => {
   }, []);
 
   const cargarDatos = async () => {
-    try {
-      const userData = JSON.parse(localStorage.getItem('migo_usuario'));
-      
-      if (!userData || !userData.id_usuarios) {
-        console.error('No hay usuario autenticado');
-        navigate('/login');
-        return;
-      }
-
-      const response = await axios.get(
-        `http://localhost:8000/api/tickets/mis-tickets/?user_id=${userData.id_usuarios}`
-      );
-      
-      const tickets = response.data.tickets || [];
-
-      setEstadisticas({
-        total: tickets.length,
-        abiertos: tickets.filter(t => t.estado === 'Abierto').length,
-        enProceso: tickets.filter(t => t.estado === 'En Proceso').length,
-        resueltos: tickets.filter(t => t.estado === 'Resuelto').length,
-        cerrados: tickets.filter(t => t.estado === 'Cerrado').length
-      });
-
-      setUltimosTickets(tickets.slice(0, 5));
-      
-      // Cargar tickets sin calificar
-      cargarTicketsSinCalificar();
-      
-      setLoading(false);
-    } catch (error) {
-      console.error('Error al cargar datos:', error);
-      setLoading(false);
+  try {
+    setLoading(true);
+    const userData = JSON.parse(localStorage.getItem('migo_usuario'));
+    
+    if (!userData || !userData.id_usuarios) {
+      console.error('No hay usuario autenticado');
+      navigate('/login');
+      return;
     }
-  };
+
+    const response = await axios.get(
+      `http://localhost:8000/api/tickets/mis-tickets/?user_id=${userData.id_usuarios}`
+    );
+    
+    const tickets = response.data.tickets || [];
+
+    setEstadisticas({
+      total: tickets.length,
+      abiertos: tickets.filter(t => t.estado === 'Abierto').length,
+      enProceso: tickets.filter(t => t.estado === 'En Proceso').length,
+      resueltos: tickets.filter(t => t.estado === 'Resuelto').length,
+      cerrados: tickets.filter(t => t.estado === 'Cerrado').length
+    });
+
+    setUltimosTickets(tickets.slice(0, 5));
+    
+    // Cargar tickets sin calificar
+    await cargarTicketsSinCalificar();
+    
+    setLoading(false);
+  } catch (error) {
+    console.error('Error al cargar datos:', error);
+    setLoading(false);
+  }
+};
 
   const cargarTicketsSinCalificar = async () => {
     try {
@@ -137,15 +138,23 @@ const TrabajadorDashboard = () => {
       {/* Header */}
       <div className={style.header}>
         <div>
-          <h1>Bienvenido, {user?.persona?.nombre_completo || user?.persona?.primer_nombre || 'Usuario'}</h1>
-          <p>Panel de Control - Trabajador</p>
+          <h1>Panel de Control - Trabajador</h1>
+          <p>Bienvenido, {JSON.parse(localStorage.getItem('migo_usuario'))?.persona?.nombre_completo || 'Técnico'}</p>
         </div>
-        <button 
-          className={style.btnNuevoTicket}
-          onClick={() => navigate('/trabajador/nuevo-ticket')}
-        >
-          ➕ Crear Nuevo Ticket
-        </button>
+        <div className={style.headerButtons}>
+          <button 
+            className={style.btnRefresh}
+            onClick={cargarDatos}
+          >
+            🔄 Actualizar
+          </button>
+          <button 
+            className={style.btnNuevoTicket}
+            onClick={() => navigate('/trabajador/nuevo-ticket')}
+          >
+            ➕ Crear Nuevo Ticket
+          </button>
+        </div>
       </div>
 
       {/* Tarjetas de Estadísticas */}

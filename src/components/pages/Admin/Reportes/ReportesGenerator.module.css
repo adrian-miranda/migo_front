@@ -6,8 +6,45 @@
 }
 
 /* Header */
+/* Header */
 .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 30px;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header h1 {
+  font-size: 28px;
+  color: #2c3e50;
+  margin: 0 0 5px 0;
+}
+
+.header p {
+  color: #7f8c8d;
+  margin: 0;
+}
+
+.btnRefresh {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btnRefresh:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
 
 .header h1 {
@@ -229,6 +266,9 @@
   margin-bottom: 30px;
 }
 
+
+
+
 .metricaCard {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
@@ -236,6 +276,15 @@
   border-radius: 12px;
   text-align: center;
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  transition: transform 0.30s ease-in-out, box-shadow 0.5s ease-in-out;
+}
+
+.metricaCard:hover {
+  
+  transform: translateY(-15px);
+  box-shadow: 0 6px 12px rgba(102, 126, 234, 0.3);
+
+
 }
 
 .metricaCard:nth-child(2) {
@@ -251,14 +300,19 @@
 }
 
 .metricaNumero {
-  font-size: 2.5rem;
+  font-size: 3.5rem;
   font-weight: 700;
-  margin-bottom: 8px;
+  color: #e9e9e9;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .metricaLabel {
-  font-size: 0.95rem;
+  font-size: 1.5rem;
   opacity: 0.9;
+  color: #e9e9e9;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 /* Contenedor de gráficos */
@@ -480,8 +534,9 @@
 }
 
 .metricaSub {
-  font-size: 11px;
-  color: #7f8c8d;
+  font-size: 0.9744rem;
+  color: #e9e9e9;
   margin-top: 4px;
   text-align: center;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
