@@ -21,3 +21,124 @@
   position: relative;
   min-height: 300px;
 }
+
+
+/* Contenedor de Satisfacción */
+.satisfaccionContainer {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.satisfaccionGrid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+/* Sección Gauge */
+.gaugeSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.gaugeWrapper {
+  position: relative;
+  width: 200px;
+  height: 120px;
+  margin-bottom: 20px;
+}
+
+.gaugeCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -20%);
+  text-align: center;
+}
+
+.gaugeValue {
+  font-size: 36px;
+  font-weight: 700;
+  color: #2c3e50;
+  line-height: 1;
+}
+
+.gaugeLabel {
+  font-size: 14px;
+  color: #7f8c8d;
+  margin-top: 2px;
+}
+
+.gaugeEmoji {
+  font-size: 28px;
+  margin-top: 5px;
+}
+
+.gaugeStats {
+  text-align: center;
+}
+
+.totalCalificaciones {
+  font-size: 14px;
+  color: #7f8c8d;
+  margin: 0 0 5px 0;
+}
+
+.nivelSatisfaccion {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+}
+
+/* Sección Distribución */
+.distribucionSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.distribucionTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0 0 15px 0;
+}
+
+.distribucionWrapper {
+  flex: 1;
+  min-height: 200px;
+}
+
+/* Sin datos */
+.noData {
+  text-align: center;
+  padding: 40px 20px;
+  color: #7f8c8d;
+}
+
+.noData p {
+  font-size: 16px;
+  margin: 0 0 10px 0;
+}
+
+.noData small {
+  font-size: 13px;
+  color: #95a5a6;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .satisfaccionGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .gaugeSection {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ecf0f1;
+  }
+}

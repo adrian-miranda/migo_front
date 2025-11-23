@@ -10,6 +10,7 @@ import EstadosChart from '../../molecules/Charts/EstadosChart';
 import PrioridadesChart from '../../molecules/Charts/PrioridadesChart';
 import CategoriasChart from '../../molecules/Charts/CategoriasChart';
 import TicketsTable from '../../molecules/TicketsTable/TicketsTable';
+import SatisfaccionChart from '../../molecules/Charts/SatisfaccionChart';
 import style from './Dashboard.module.css';
 
 const AdminDashboard = () => {
@@ -116,6 +117,7 @@ const AdminDashboard = () => {
       </div>
 
       {/* Tarjetas de estadísticas */}
+      
       {estadisticas && (
         <div className={style.statsGrid}>
           <StatsCard
@@ -150,6 +152,7 @@ const AdminDashboard = () => {
       )}
 
       {/* Gráficos */}
+      {/* Gráficos */}
       {estadisticas && (
         <div className={style.chartsGrid}>
           <div className={style.chartItem}>
@@ -161,6 +164,13 @@ const AdminDashboard = () => {
           <div className={style.chartItem}>
             <CategoriasChart estadisticas={estadisticas} />
           </div>
+        </div>
+      )}
+
+      {/* Gráfico de Satisfacción */}
+      {estadisticas && (
+        <div className={style.satisfaccionSection}>
+          <SatisfaccionChart estadisticas={estadisticas} />
         </div>
       )}
 
