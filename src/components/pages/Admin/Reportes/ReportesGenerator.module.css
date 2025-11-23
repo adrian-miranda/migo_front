@@ -478,3 +478,10 @@
     font-size: 0.85rem;
   }
 }
+
+.metricaSub {
+  font-size: 11px;
+  color: #7f8c8d;
+  margin-top: 4px;
+  text-align: center;
+}

@@ -62,41 +62,43 @@ const ReportesGenerator = () => {
   };
 
   const aplicarPreset = (preset) => {
-    const hoy = new Date();
-    let fechaInicio, fechaFin;
+  const hoy = new Date();
+  let fechaInicio, fechaFin;
 
-    switch (preset) {
-      case 'hoy':
-        fechaInicio = fechaFin = hoy.toISOString().split('T')[0];
-        break;
-      case 'semana':
-        fechaInicio = new Date(hoy.setDate(hoy.getDate() - 7)).toISOString().split('T')[0];
-        fechaFin = new Date().toISOString().split('T')[0];
-        break;
-      case 'mes':
-        fechaInicio = new Date(hoy.getFullYear(), hoy.getMonth(), 1).toISOString().split('T')[0];
-        fechaFin = new Date().toISOString().split('T')[0];
-        break;
-      case 'trimestre':
-        const mesActual = hoy.getMonth();
-        const mesTrimestre = Math.floor(mesActual / 3) * 3;
-        fechaInicio = new Date(hoy.getFullYear(), mesTrimestre, 1).toISOString().split('T')[0];
-        fechaFin = new Date().toISOString().split('T')[0];
-        break;
-      case 'año':
-        fechaInicio = new Date(hoy.getFullYear(), 0, 1).toISOString().split('T')[0];
-        fechaFin = new Date().toISOString().split('T')[0];
-        break;
-      default:
-        return;
-    }
+  switch (preset) {
+    case 'hoy':
+      fechaInicio = fechaFin = new Date().toISOString().split('T')[0];
+      break;
+    case 'semana':
+      const hace7Dias = new Date();
+      hace7Dias.setDate(hace7Dias.getDate() - 7);
+      fechaInicio = hace7Dias.toISOString().split('T')[0];
+      fechaFin = new Date().toISOString().split('T')[0];
+      break;
+    case 'mes':
+      fechaInicio = new Date(hoy.getFullYear(), hoy.getMonth(), 1).toISOString().split('T')[0];
+      fechaFin = new Date().toISOString().split('T')[0];
+      break;
+    case 'trimestre':
+      const mesActual = hoy.getMonth();
+      const mesTrimestre = Math.floor(mesActual / 3) * 3;
+      fechaInicio = new Date(hoy.getFullYear(), mesTrimestre, 1).toISOString().split('T')[0];
+      fechaFin = new Date().toISOString().split('T')[0];
+      break;
+    case 'año':
+      fechaInicio = new Date(hoy.getFullYear(), 0, 1).toISOString().split('T')[0];
+      fechaFin = new Date().toISOString().split('T')[0];
+      break;
+    default:
+      return;
+  }
 
-    setFiltros({
-      ...filtros,
-      fechaInicio,
-      fechaFin
-    });
-  };
+  setFiltros({
+    ...filtros,
+    fechaInicio,
+    fechaFin
+  });
+};
 
   const generarReporte = () => {
     setGenerandoReporte(true);
@@ -114,8 +116,7 @@ const ReportesGenerator = () => {
     }
 
     if (filtros.fechaFin) {
-      const fechaFin = new Date(filtros.fechaFin);
-      fechaFin.setHours(23, 59, 59, 999);
+      const fechaFin = new Date(filtros.fechaFin + 'T23:59:59.999');
       ticketsFiltrados = ticketsFiltrados.filter(t => {
         const fechaTicket = new Date(t.fecha_creacion);
         return fechaTicket <= fechaFin;
@@ -168,106 +169,109 @@ const ReportesGenerator = () => {
   };
 
   const calcularMetricas = (ticketsFiltrados) => {
-    const total = ticketsFiltrados.length;
+  const total = ticketsFiltrados.length;
 
-    // Por estado
-    const porEstado = {
-      abiertos: ticketsFiltrados.filter(t => t.estado === 'Abierto').length,
-      enProceso: ticketsFiltrados.filter(t => t.estado === 'En Proceso').length,
-      resueltos: ticketsFiltrados.filter(t => t.estado === 'Resuelto').length,
-      cerrados: ticketsFiltrados.filter(t => t.estado === 'Cerrado').length
-    };
-
-    // Por prioridad
-    const porPrioridad = {
-      baja: ticketsFiltrados.filter(t => t.prioridad === 'Baja').length,
-      media: ticketsFiltrados.filter(t => t.prioridad === 'Media').length,
-      alta: ticketsFiltrados.filter(t => t.prioridad === 'Alta').length,
-      urgente: ticketsFiltrados.filter(t => t.prioridad === 'Urgente').length
-    };
-
-    // Por categoría
-    const categorias = [...new Set(ticketsFiltrados.map(t => t.categoria))];
-    const porCategoria = {};
-    categorias.forEach(cat => {
-      porCategoria[cat] = ticketsFiltrados.filter(t => t.categoria === cat).length;
-    });
-
-    // Tiempo promedio de resolución
-    const ticketsResueltos = ticketsFiltrados.filter(
-      t => t.fecha_resolucion && t.fecha_creacion
-    );
-    let tiempoPromedio = 0;
-    if (ticketsResueltos.length > 0) {
-      const tiempoTotal = ticketsResueltos.reduce((acc, ticket) => {
-        const creacion = new Date(ticket.fecha_creacion);
-        const resolucion = new Date(ticket.fecha_resolucion);
-        const diferencia = (resolucion - creacion) / (1000 * 60 * 60); // horas
-        return acc + diferencia;
-      }, 0);
-      tiempoPromedio = (tiempoTotal / ticketsResueltos.length).toFixed(1);
-    }
-
-    // Tasa de resolución
-    const tasaResolucion = total > 0 
-      ? ((porEstado.resueltos + porEstado.cerrados) / total * 100).toFixed(1) 
-      : 0;
-
-    // Top técnicos
-    const ticketsPorTecnico = {};
-    ticketsFiltrados.forEach(ticket => {
-      if (ticket.tecnico_asignado) {
-        const tecnicoId = ticket.tecnico_asignado.id;
-        const tecnicoNombre = ticket.tecnico_asignado.nombre;
-        if (!ticketsPorTecnico[tecnicoId]) {
-          ticketsPorTecnico[tecnicoId] = {
-            nombre: tecnicoNombre,
-            total: 0,
-            resueltos: 0
-          };
-        }
-        ticketsPorTecnico[tecnicoId].total++;
-        if (ticket.estado === 'Resuelto' || ticket.estado === 'Cerrado') {
-          ticketsPorTecnico[tecnicoId].resueltos++;
-        }
-      }
-    });
-
-    const topTecnicos = Object.values(ticketsPorTecnico)
-      .sort((a, b) => b.resueltos - a.resueltos)
-      .slice(0, 5);
-
-    // Top usuarios con más tickets
-    const ticketsPorUsuario = {};
-    ticketsFiltrados.forEach(ticket => {
-      if (ticket.usuario_creador) {
-        const userId = ticket.usuario_creador.id;
-        const userName = ticket.usuario_creador.nombre;
-        if (!ticketsPorUsuario[userId]) {
-          ticketsPorUsuario[userId] = {
-            nombre: userName,
-            total: 0
-          };
-        }
-        ticketsPorUsuario[userId].total++;
-      }
-    });
-
-    const topUsuarios = Object.values(ticketsPorUsuario)
-      .sort((a, b) => b.total - a.total)
-      .slice(0, 5);
-
-    return {
-      total,
-      porEstado,
-      porPrioridad,
-      porCategoria,
-      tiempoPromedio,
-      tasaResolucion,
-      topTecnicos,
-      topUsuarios
-    };
+  // Por estado (incluyendo cancelados)
+  const porEstado = {
+    abiertos: ticketsFiltrados.filter(t => t.estado === 'Abierto').length,
+    enProceso: ticketsFiltrados.filter(t => t.estado === 'En Proceso').length,
+    resueltos: ticketsFiltrados.filter(t => t.estado === 'Resuelto').length,
+    cerrados: ticketsFiltrados.filter(t => t.estado === 'Cerrado').length,
+    cancelados: ticketsFiltrados.filter(t => t.estado === 'Cancelado').length
   };
+
+  // Por prioridad
+  const porPrioridad = {
+    baja: ticketsFiltrados.filter(t => t.prioridad === 'Baja').length,
+    media: ticketsFiltrados.filter(t => t.prioridad === 'Media').length,
+    alta: ticketsFiltrados.filter(t => t.prioridad === 'Alta').length,
+    urgente: ticketsFiltrados.filter(t => t.prioridad === 'Urgente').length
+  };
+
+  // Por categoría
+  const categorias = [...new Set(ticketsFiltrados.map(t => t.categoria))];
+  const porCategoria = {};
+  categorias.forEach(cat => {
+    porCategoria[cat] = ticketsFiltrados.filter(t => t.categoria === cat).length;
+  });
+
+  // Tiempo promedio de resolución (incluir cerrados también)
+  // Tiempo promedio de resolución
+const ticketsCompletados = ticketsFiltrados.filter(
+  t => (t.estado === 'Resuelto' || t.estado === 'Cerrado') && t.fecha_creacion && (t.fecha_resolucion || t.fecha_cierre)
+);
+
+let tiempoPromedio = 0;
+if (ticketsCompletados.length > 0) {
+  const tiempoTotal = ticketsCompletados.reduce((acc, ticket) => {
+    const creacion = new Date(ticket.fecha_creacion);
+    const fechaFin = new Date(ticket.fecha_resolucion || ticket.fecha_cierre);
+    const diferencia = (fechaFin - creacion) / (1000 * 60 * 60);
+    return acc + diferencia;
+  }, 0);
+  tiempoPromedio = (tiempoTotal / ticketsCompletados.length).toFixed(1);
+}
+
+// Tasa de resolución
+const tasaResolucion = total > 0 
+  ? ((porEstado.resueltos + porEstado.cerrados) / total * 100).toFixed(1) 
+  : 0;
+
+// Top técnicos
+const ticketsPorTecnico = {};
+ticketsFiltrados.forEach(ticket => {
+  if (ticket.tecnico_asignado) {
+    const tecnicoId = ticket.tecnico_asignado.id;
+    const tecnicoNombre = ticket.tecnico_asignado.nombre;
+    if (!ticketsPorTecnico[tecnicoId]) {
+      ticketsPorTecnico[tecnicoId] = {
+        nombre: tecnicoNombre,
+        total: 0,
+        resueltos: 0
+      };
+    }
+    ticketsPorTecnico[tecnicoId].total++;
+    if (ticket.estado === 'Resuelto' || ticket.estado === 'Cerrado') {
+      ticketsPorTecnico[tecnicoId].resueltos++;
+    }
+  }
+});
+
+  const topTecnicos = Object.values(ticketsPorTecnico)
+    .sort((a, b) => b.resueltos - a.resueltos)
+    .slice(0, 5);
+
+  // Top usuarios con más tickets
+  const ticketsPorUsuario = {};
+  ticketsFiltrados.forEach(ticket => {
+    if (ticket.usuario_creador) {
+      const userId = ticket.usuario_creador.id;
+      const userName = ticket.usuario_creador.nombre;
+      if (!ticketsPorUsuario[userId]) {
+        ticketsPorUsuario[userId] = {
+          nombre: userName,
+          total: 0
+        };
+      }
+      ticketsPorUsuario[userId].total++;
+    }
+  });
+
+  const topUsuarios = Object.values(ticketsPorUsuario)
+    .sort((a, b) => b.total - a.total)
+    .slice(0, 5);
+
+  return {
+    total,
+    porEstado,
+    porPrioridad,
+    porCategoria,
+    tiempoPromedio,
+    tasaResolucion,
+    topTecnicos,
+    topUsuarios
+  };
+};
 
   const limpiarFiltros = () => {
     setFiltros({
@@ -787,28 +791,44 @@ const ReportesGenerator = () => {
           </div>
 
           {/* Métricas principales */}
-          <div className={style.metricasGrid}>
-            <div className={style.metricaCard}>
-              <div className={style.metricaNumero}>{reporte.metricas.total}</div>
-              <div className={style.metricaLabel}>Total Tickets</div>
-            </div>
-            <div className={style.metricaCard}>
-              <div className={style.metricaNumero}>{reporte.metricas.tasaResolucion}%</div>
-              <div className={style.metricaLabel}>Tasa de Resolución</div>
-            </div>
-            <div className={style.metricaCard}>
-              <div className={style.metricaNumero}>
-                {reporte.metricas.tiempoPromedio !== 0 
-                  ? `${reporte.metricas.tiempoPromedio}h` 
-                  : 'N/A'}
-              </div>
-              <div className={style.metricaLabel}>Tiempo Promedio</div>
-            </div>
-            <div className={style.metricaCard}>
-              <div className={style.metricaNumero}>{reporte.metricas.porEstado.abiertos}</div>
-              <div className={style.metricaLabel}>Tickets Abiertos</div>
-            </div>
-          </div>
+          {/* Métricas principales */}
+{/* Métricas principales */}
+<div className={style.metricasGrid}>
+  <div className={style.metricaCard}>
+    <div className={style.metricaNumero}>{reporte.metricas.total}</div>
+    <div className={style.metricaLabel}>Total Tickets</div>
+  </div>
+  <div className={style.metricaCard}>
+    <div className={style.metricaNumero}>
+      {(reporte.metricas.porEstado.resueltos || 0) + (reporte.metricas.porEstado.cerrados || 0)}
+    </div>
+    <div className={style.metricaLabel}>Completados</div>
+    <div className={style.metricaSub}>
+      Resueltos ({reporte.metricas.porEstado.resueltos || 0}) + Cerrados ({reporte.metricas.porEstado.cerrados || 0})
+    </div>
+  </div>
+  <div className={style.metricaCard}>
+    <div className={style.metricaNumero}>{reporte.metricas.tasaResolucion}%</div>
+    <div className={style.metricaLabel}>Tasa de Resolución</div>
+  </div>
+  <div className={style.metricaCard}>
+    <div className={style.metricaNumero}>
+      {reporte.metricas.tiempoPromedio && reporte.metricas.tiempoPromedio !== '0' && reporte.metricas.tiempoPromedio !== 0
+        ? `${reporte.metricas.tiempoPromedio}h` 
+        : 'N/A'}
+    </div>
+    <div className={style.metricaLabel}>Tiempo Promedio</div>
+  </div>
+  <div className={style.metricaCard}>
+    <div className={style.metricaNumero}>{reporte.metricas.porEstado.cancelados || 0}</div>
+    <div className={style.metricaLabel}>Cancelados</div>
+    <div className={style.metricaSub}>
+      {reporte.metricas.total > 0 
+        ? ((reporte.metricas.porEstado.cancelados || 0) / reporte.metricas.total * 100).toFixed(1) 
+        : 0}%
+    </div>
+  </div>
+</div>
 
           {/* Gráficos y tablas */}
           <div className={style.chartsContainer}>
