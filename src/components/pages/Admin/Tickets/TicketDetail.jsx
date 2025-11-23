@@ -45,7 +45,7 @@ const TicketDetail = () => {
         setTicket(ticketRes.ticket);
         setFormData({
           tecnico_asignado_id: ticketRes.ticket.tecnico_asignado?.id || '',
-          estado_id: ticketRes.ticket.estado.id_estado_ticket,
+          estado_id: ticketRes.ticket.estado_id_value,
           solucion: ticketRes.ticket.solucion || '',
         });
       }
@@ -99,13 +99,10 @@ const TicketDetail = () => {
         est => est.id_estado_ticket === parseInt(formData.estado_id)
       );
 
-      // Validar que si cambia a Resuelto o Cerrado, debe tener solución
-      if (estadoSeleccionado && 
-          (estadoSeleccionado.nombre_estado === 'Resuelto' || 
-           estadoSeleccionado.nombre_estado === 'Cerrado')) {
-        
+      // Validar que si cambia a Resuelto, debe tener solución
+      if (estadoSeleccionado && estadoSeleccionado.nombre_estado === 'Resuelto') {
         if (!formData.solucion || formData.solucion.trim() === '') {
-          alert('Debe ingresar una solución antes de cambiar el estado a "' + estadoSeleccionado.nombre_estado + '"');
+          alert('Debe ingresar una solución antes de cambiar el estado a "Resuelto"');
           return;
         }
 
@@ -130,7 +127,7 @@ const TicketDetail = () => {
         );
       }
 
-      if (formData.estado_id !== ticket.estado.id_estado_ticket.toString()) {
+      if (formData.estado_id !== ticket.estado_id_value.toString()) {
         dataToUpdate.estado_id = parseInt(formData.estado_id);
       }
 
@@ -173,19 +170,15 @@ const TicketDetail = () => {
     });
   };
 
-  // Verificar si el ticket está cerrado o resuelto
-  const isTicketClosed = ticket && (
-    ticket.estado.nombre_estado === 'Resuelto' || 
-    ticket.estado.nombre_estado === 'Cerrado'
-  );
+  // Verificar si el ticket está cerrado
+  const isTicketClosed = ticket && ticket.estado === 'Cerrado';
 
   // Verificar si el estado seleccionado requiere solución
   const estadoSeleccionado = estados.find(
     est => est.id_estado_ticket === parseInt(formData.estado_id)
   );
   const requiereSolucion = estadoSeleccionado && 
-    (estadoSeleccionado.nombre_estado === 'Resuelto' || 
-     estadoSeleccionado.nombre_estado === 'Cerrado');
+    estadoSeleccionado.nombre_estado === 'Resuelto';
 
   if (loading) {
     return (
@@ -240,9 +233,9 @@ const TicketDetail = () => {
                   <label>Estado:</label>
                   <span
                     className={style.badge}
-                    style={{ backgroundColor: ticket.estado.color }}
+                    style={{ backgroundColor: ticket.estado_color }}
                   >
-                    {ticket.estado.nombre_estado}
+                    {ticket.estado}
                   </span>
                 </div>
 
@@ -250,16 +243,16 @@ const TicketDetail = () => {
                   <label>Prioridad:</label>
                   <span
                     className={style.badge}
-                    style={{ backgroundColor: ticket.prioridad.color }}
+                    style={{ backgroundColor: ticket.prioridad_color }}
                   >
-                    {ticket.prioridad.nombre_prioridad}
+                    {ticket.prioridad}
                   </span>
                 </div>
 
                 <div className={style.infoItem}>
                   <label>Categoría:</label>
                   <span className={style.badge} style={{ backgroundColor: '#9b59b6' }}>
-                    {ticket.categoria.nombre_categoria}
+                    {ticket.categoria}
                   </span>
                 </div>
               </div>
@@ -267,7 +260,7 @@ const TicketDetail = () => {
               <div className={style.infoRow}>
                 <div className={style.infoItem}>
                   <label>Creado por:</label>
-                  <p>{ticket.usuario_creador.nombre_completo}</p>
+                  <p>{ticket.usuario_creador.nombre}</p>
                   <p className={style.small}>{ticket.usuario_creador.correo}</p>
                 </div>
 
@@ -281,7 +274,7 @@ const TicketDetail = () => {
                 <div className={style.infoRow}>
                   <div className={style.infoItem}>
                     <label>Técnico asignado:</label>
-                    <p>{ticket.tecnico_asignado.nombre_completo}</p>
+                    <p>{ticket.tecnico_asignado.nombre}</p>
                     <p className={style.small}>{ticket.tecnico_asignado.correo}</p>
                   </div>
 
@@ -362,7 +355,7 @@ const TicketDetail = () => {
 
             {isTicketClosed && (
               <div className={style.alertInfo}>
-                ℹ️ Este ticket está {ticket.estado.nombre_estado.toLowerCase()} y no puede ser modificado
+                ℹ️ Este ticket está cerrado y no puede ser modificado
               </div>
             )}
 
@@ -408,15 +401,25 @@ const TicketDetail = () => {
                   className={style.select}
                   disabled={isTicketClosed}
                 >
-                  {estados.map((estado) => (
-                    <option
-                      key={estado.id_estado_ticket}
-                      value={estado.id_estado_ticket}
-                    >
-                      {estado.nombre_estado}
-                    </option>
-                  ))}
+                  {estados.map((estado) => {
+                    // ❌ No mostrar "Cerrado" como opción (solo automático)
+                    if (estado.id_estado_ticket === 4) {
+                      return null;
+                    }
+                    
+                    return (
+                      <option
+                        key={estado.id_estado_ticket}
+                        value={estado.id_estado_ticket}
+                      >
+                        {estado.nombre_estado}
+                      </option>
+                    );
+                  })}
                 </select>
+                <p className={style.hint}>
+                  ℹ️ El estado "Cerrado" se establece automáticamente cuando el usuario califica el ticket
+                </p>
               </div>
 
               {/* Solución */}
@@ -432,14 +435,14 @@ const TicketDetail = () => {
                   className={`${style.textarea} ${requiereSolucion ? style.required : ''}`}
                   rows="6"
                   placeholder={requiereSolucion 
-                    ? "La solución es obligatoria para cambiar a Resuelto o Cerrado (mínimo 10 caracteres)..."
+                    ? "La solución es obligatoria para cambiar a Resuelto (mínimo 10 caracteres)..."
                     : "Describe la solución aplicada..."}
                   disabled={isTicketClosed}
                   required={requiereSolucion}
                 />
                 {requiereSolucion && !isTicketClosed && (
                   <p className={style.hintRequired}>
-                    ⚠️ Debes ingresar una solución para cambiar el estado a "{estadoSeleccionado.nombre_estado}"
+                    ⚠️ Debes ingresar una solución para cambiar el estado a "Resuelto"
                   </p>
                 )}
               </div>

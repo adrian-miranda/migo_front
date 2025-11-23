@@ -15,6 +15,7 @@ const TrabajadorDashboard = () => {
     cerrados: 0
   });
   const [ultimosTickets, setUltimosTickets] = useState([]);
+  const [ticketsSinCalificar, setTicketsSinCalificar] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -46,10 +47,29 @@ const TrabajadorDashboard = () => {
       });
 
       setUltimosTickets(tickets.slice(0, 5));
+      
+      // Cargar tickets sin calificar
+      cargarTicketsSinCalificar();
+      
       setLoading(false);
     } catch (error) {
       console.error('Error al cargar datos:', error);
       setLoading(false);
+    }
+  };
+
+  const cargarTicketsSinCalificar = async () => {
+    try {
+      const userData = JSON.parse(localStorage.getItem('migo_usuario'));
+      const response = await axios.get(
+        `http://localhost:8000/api/tickets/sin-calificar/?user_id=${userData.id_usuarios}`
+      );
+
+      if (response.data.success) {
+        setTicketsSinCalificar(response.data.tickets);
+      }
+    } catch (error) {
+      console.error('Error al cargar tickets sin calificar:', error);
     }
   };
 
@@ -209,6 +229,31 @@ const TrabajadorDashboard = () => {
           </button>
         </div>
       </div>
+
+      {/* Widget de tickets pendientes de calificar */}
+      {ticketsSinCalificar.length > 0 && (
+        <div className={style.alertCalificar}>
+          <div className={style.alertHeader}>
+            <span className={style.alertIcon}>⭐</span>
+            <h3>Tienes {ticketsSinCalificar.length} ticket{ticketsSinCalificar.length > 1 ? 's' : ''} pendiente{ticketsSinCalificar.length > 1 ? 's' : ''} de calificar</h3>
+          </div>
+          <div className={style.ticketsCalificar}>
+            {ticketsSinCalificar.map((ticket) => (
+              <div key={ticket.id_ticket} className={style.ticketCalificarItem}>
+                <div>
+                  <strong>#{ticket.id_ticket}</strong> - {ticket.titulo}
+                </div>
+                <button
+                  className={style.btnCalificar}
+                  onClick={() => navigate(`/trabajador/tickets/${ticket.id_ticket}`)}
+                >
+                  Calificar ahora
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Últimos Tickets */}
       <div className={style.ultimosTickets}>
