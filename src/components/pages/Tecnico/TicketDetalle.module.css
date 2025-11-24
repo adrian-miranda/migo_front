@@ -340,3 +340,209 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ==================== ESTILOS IA ==================== */
+
+.iaHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.iaHeader h3 {
+  margin: 0;
+}
+
+.btnCerrar {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #7f8c8d;
+  padding: 5px;
+  line-height: 1;
+}
+
+.btnCerrar:hover {
+  color: #e74c3c;
+}
+
+.iaLoading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  gap: 15px;
+}
+
+.iaLoading p {
+  color: #7f8c8d;
+  margin: 0;
+}
+
+.iaError {
+  background: #ffeaea;
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 4px solid #e74c3c;
+}
+
+.iaError p {
+  margin: 0;
+  color: #c0392b;
+}
+
+.iaRespuesta {
+  background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%);
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.iaTexto {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #2c3e50;
+  text-align: justify;
+  font-weight: 500;
+}
+
+.iaCache {
+  font-size: 12px;
+  color: #7f8c8d;
+  margin: 10px 0 0 0;
+  text-align: right;
+}
+
+.iaAcciones {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.btnAplicar {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btnAplicar:hover {
+  background: #5a6fd6;
+}
+
+.btnRegenerar {
+  background: #f39c12;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btnRegenerar:hover {
+  background: #d68910;
+}
+
+.iaFeedback {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #e9ecef;
+}
+
+.iaFeedback p {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  color: #2c3e50;
+}
+
+.feedbackBotones {
+  display: flex;
+  gap: 10px;
+}
+
+.btnFeedbackSi,
+.btnFeedbackNo {
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.btnFeedbackSi {
+  background: #d4edda;
+  color: #155724;
+}
+
+.btnFeedbackSi:hover {
+  background: #c3e6cb;
+}
+
+.btnFeedbackNo {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.btnFeedbackNo:hover {
+  background: #f5c6cb;
+}
+
+.feedbackGracias {
+  color: #28a745;
+  font-size: 14px;
+  margin: 15px 0 0 0;
+}
+
+.ticketsSimilares {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #e9ecef;
+}
+
+.ticketsSimilares h4 {
+  margin: 0 0 15px 0;
+  font-size: 14px;
+  color: #2c3e50;
+}
+
+.ticketSimilar {
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.ticketSimilar strong {
+  color: #667eea;
+}
+
+.solucionSimilar {
+  margin: 8px 0 0 0;
+  color: #7f8c8d;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.consultasRestantes {
+  font-size: 12px;
+  color: #7f8c8d;
+  text-align: center;
+  margin: 10px 0 0 0;
+}
