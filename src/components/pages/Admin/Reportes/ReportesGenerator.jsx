@@ -65,29 +65,37 @@ const ReportesGenerator = () => {
   const hoy = new Date();
   let fechaInicio, fechaFin;
 
+  // Función para formatear fecha en formato YYYY-MM-DD en zona horaria local
+  const formatearFechaLocal = (fecha) => {
+    const año = fecha.getFullYear();
+    const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+    const dia = String(fecha.getDate()).padStart(2, '0');
+    return `${año}-${mes}-${dia}`;
+  };
+
   switch (preset) {
     case 'hoy':
-      fechaInicio = fechaFin = new Date().toISOString().split('T')[0];
+      fechaInicio = fechaFin = formatearFechaLocal(hoy);
       break;
     case 'semana':
       const hace7Dias = new Date();
       hace7Dias.setDate(hace7Dias.getDate() - 7);
-      fechaInicio = hace7Dias.toISOString().split('T')[0];
-      fechaFin = new Date().toISOString().split('T')[0];
+      fechaInicio = formatearFechaLocal(hace7Dias);
+      fechaFin = formatearFechaLocal(hoy);
       break;
     case 'mes':
-      fechaInicio = new Date(hoy.getFullYear(), hoy.getMonth(), 1).toISOString().split('T')[0];
-      fechaFin = new Date().toISOString().split('T')[0];
+      fechaInicio = formatearFechaLocal(new Date(hoy.getFullYear(), hoy.getMonth(), 1));
+      fechaFin = formatearFechaLocal(hoy);
       break;
     case 'trimestre':
       const mesActual = hoy.getMonth();
       const mesTrimestre = Math.floor(mesActual / 3) * 3;
-      fechaInicio = new Date(hoy.getFullYear(), mesTrimestre, 1).toISOString().split('T')[0];
-      fechaFin = new Date().toISOString().split('T')[0];
+      fechaInicio = formatearFechaLocal(new Date(hoy.getFullYear(), mesTrimestre, 1));
+      fechaFin = formatearFechaLocal(hoy);
       break;
     case 'año':
-      fechaInicio = new Date(hoy.getFullYear(), 0, 1).toISOString().split('T')[0];
-      fechaFin = new Date().toISOString().split('T')[0];
+      fechaInicio = formatearFechaLocal(new Date(hoy.getFullYear(), 0, 1));
+      fechaFin = formatearFechaLocal(hoy);
       break;
     default:
       return;
