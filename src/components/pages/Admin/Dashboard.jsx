@@ -11,6 +11,7 @@ import PrioridadesChart from '../../molecules/Charts/PrioridadesChart';
 import CategoriasChart from '../../molecules/Charts/CategoriasChart';
 import TicketsTable from '../../molecules/TicketsTable/TicketsTable';
 import SatisfaccionChart from '../../molecules/Charts/SatisfaccionChart';
+import PanelIA from './IA/PanelIA';
 import style from './Dashboard.module.css';
 
 const AdminDashboard = () => {
@@ -200,6 +201,12 @@ const AdminDashboard = () => {
           </div>
         </div>
         <TicketsTable tickets={tickets} loading={false} />
+      </div>
+
+      {/* Panel de IA */}
+      <div className={style.iaSection}>
+        <h2 className={style.sectionTitle}>🤖 Inteligencia Artificial</h2>
+        <PanelIA />
       </div>
 
       {/* Resumen por categoría */}

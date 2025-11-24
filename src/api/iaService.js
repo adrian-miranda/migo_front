@@ -84,10 +84,14 @@ const iaService = {
   /**
    * Analizar patrones en tickets (solo admin)
    * @param {number} dias - Días a analizar
+   * @param {string} categoria - Categoría a filtrar (opcional)
+   * @param {string} prioridad - Prioridad a filtrar (opcional)
    */
-  analizarPatrones: async (dias = 30) => {
+  analizarPatrones: async (dias = 30, categoria = '', prioridad = '') => {
     const response = await axiosInstance.post('/ia/analizar-patrones/', {
-      dias: dias
+      dias: dias,
+      categoria: categoria,
+      prioridad: prioridad
     });
     return response.data;
   },
