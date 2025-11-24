@@ -166,7 +166,11 @@
   border-radius: 8px;
   font-size: 14px;
   transition: all 0.3s ease;
-  -moz-appearance: textfield;
+
+  /* Compatibilidad */
+  appearance: textfield;       /* estándar */
+  -moz-appearance: textfield;  /* Firefox */
+  -webkit-appearance: textfield; /* Safari/Chrome antiguos */
 }
 
 .paginacionInput::-webkit-outer-spin-button,
