@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import style from './TicketDetalle.module.css';
 import CalificarTicket, { CalificacionExistente } from './CalificarTicket';
+import { reclamosService } from '../../../api/reclamosService';
 
 const TicketDetalle = () => {
   const { id } = useParams();
@@ -12,6 +13,12 @@ const TicketDetalle = () => {
   const [loading, setLoading] = useState(true);
   const [calificacion, setCalificacion] = useState(null);
   const [puedeCalificar, setPuedeCalificar] = useState(false);
+  
+  // Estados para reclamos
+  const [mostrarFormReclamo, setMostrarFormReclamo] = useState(false);
+  const [categoriaReclamo, setCategoriaReclamo] = useState('solucion_ticket');
+  const [descripcionReclamo, setDescripcionReclamo] = useState('');
+  const [prioridadReclamo, setPrioridadReclamo] = useState('media');
 
   useEffect(() => {
     cargarTicket();
@@ -19,28 +26,27 @@ const TicketDetalle = () => {
   }, [id]);
 
   const cargarTicket = async () => {
-  try {
-    const response = await axios.get(`http://localhost:8000/api/tickets/${id}/`);
-    if (response.data.success) {
-      setTicket(response.data.ticket);
-      
-      // Verificar si puede calificar (ticket RESUELTO y sin calificación)
-      const userData = JSON.parse(localStorage.getItem('migo_usuario'));
-      const esResuelto = response.data.ticket.estado === 'Resuelto';
-      const esCreador = response.data.ticket.usuario_creador.id === userData.id_usuarios;
-      const tieneCalificacion = response.data.ticket.calificacion_ticket !== null;
-      
-      setPuedeCalificar(esResuelto && esCreador && !tieneCalificacion);
-      setCalificacion(response.data.ticket.calificacion_ticket);
+    try {
+      const response = await axios.get(`http://localhost:8000/api/tickets/${id}/`);
+      if (response.data.success) {
+        setTicket(response.data.ticket);
+        
+        const userData = JSON.parse(localStorage.getItem('migo_usuario'));
+        const esResuelto = response.data.ticket.estado === 'Resuelto';
+        const esCreador = response.data.ticket.usuario_creador.id === userData.id_usuarios;
+        const tieneCalificacion = response.data.ticket.calificacion_ticket !== null;
+        
+        setPuedeCalificar(esResuelto && esCreador && !tieneCalificacion);
+        setCalificacion(response.data.ticket.calificacion_ticket);
+      }
+    } catch (error) {
+      console.error('Error al cargar ticket:', error);
+      alert('Error al cargar el ticket');
+      navigate('/trabajador/dashboard');
+    } finally {
+      setLoading(false);
     }
-  } catch (error) {
-    console.error('Error al cargar ticket:', error);
-    alert('Error al cargar el ticket');
-    navigate('/trabajador/dashboard');
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   const cargarHistorial = async () => {
     try {
@@ -54,7 +60,29 @@ const TicketDetalle = () => {
   };
 
   const handleCalificado = () => {
-    cargarTicket(); // Recargar el ticket para actualizar la calificación
+    cargarTicket();
+  };
+
+  const handleCrearReclamo = async () => {
+    try {
+      const userData = JSON.parse(localStorage.getItem('migo_usuario'));
+      
+      const response = await reclamosService.crearReclamo({
+        ticket_id: id,
+        usuario_id: userData.id_usuarios,
+        categoria: categoriaReclamo,
+        descripcion: descripcionReclamo,
+        prioridad: prioridadReclamo
+      });
+
+      if (response.success) {
+        alert('Reclamo creado exitosamente');
+        setMostrarFormReclamo(false);
+        setDescripcionReclamo('');
+      }
+    } catch (error) {
+      alert(error.response?.data?.error || 'Error al crear reclamo');
+    }
   };
 
   const cancelarTicket = async () => {
@@ -205,6 +233,61 @@ const TicketDetalle = () => {
 
       {calificacion && (
         <CalificacionExistente calificacion={calificacion} />
+      )}
+
+      {/* SECCIÓN DE RECLAMOS - NUEVO */}
+      {ticket.estado === 'Cerrado' && (
+        <div className={style.reclamoSection}>
+          <button
+            onClick={() => setMostrarFormReclamo(!mostrarFormReclamo)}
+            className={style.btnReclamo}
+          >
+            📢 {mostrarFormReclamo ? 'Cancelar Reclamo' : 'Crear Reclamo'}
+          </button>
+
+          {mostrarFormReclamo && (
+            <div className={style.formReclamo}>
+              <h3>Crear Reclamo</h3>
+              
+              <div className={style.formGroup}>
+                <label>Categoría:</label>
+                <select 
+                  value={categoriaReclamo} 
+                  onChange={(e) => setCategoriaReclamo(e.target.value)}
+                >
+                  <option value="solucion_ticket">Problema con la solución</option>
+                  <option value="comportamiento_tecnico">Comportamiento del técnico</option>
+                </select>
+              </div>
+
+              <div className={style.formGroup}>
+                <label>Prioridad:</label>
+                <select 
+                  value={prioridadReclamo} 
+                  onChange={(e) => setPrioridadReclamo(e.target.value)}
+                >
+                  <option value="baja">Baja</option>
+                  <option value="media">Media</option>
+                  <option value="alta">Alta</option>
+                </select>
+              </div>
+
+              <div className={style.formGroup}>
+                <label>Descripción del reclamo:</label>
+                <textarea
+                  value={descripcionReclamo}
+                  onChange={(e) => setDescripcionReclamo(e.target.value)}
+                  placeholder="Describe el motivo de tu reclamo..."
+                  rows="4"
+                />
+              </div>
+
+              <button onClick={handleCrearReclamo} className={style.btnEnviarReclamo}>
+                Enviar Reclamo
+              </button>
+            </div>
+          )}
+        </div>
       )}
 
       {/* Historial */}

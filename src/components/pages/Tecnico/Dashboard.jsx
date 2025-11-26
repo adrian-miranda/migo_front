@@ -215,6 +215,20 @@ const TecnicoDashboard = () => {
         </div>
       )}
 
+      {/* Sección de Reclamos */}
+      <div className={style.reclamosSection}>
+        <div className={style.reclamosHeader}>
+          <h2>📢 Mis Reclamos</h2>
+          <button 
+            className={style.btnVerReclamos}
+            onClick={() => navigate('/tecnico/reclamos')}
+          >
+            Ver todos →
+          </button>
+        </div>
+        <p className={style.reclamosTexto}>Revisa los reclamos que los usuarios han hecho sobre tu trabajo</p>
+      </div>
+
       {/* Historial Reciente */}
       <div className={style.historialSection}>
         <div className={style.historialHeader}>

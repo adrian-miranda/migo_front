@@ -12,6 +12,7 @@ import TicketsList from './components/pages/Admin/Tickets/TicketsList';
 import UsuariosList from './components/pages/Admin/Usuarios/UsuariosList';
 import TecnicosList from './components/pages/Admin/Tecnicos/TecnicosList';
 import ReportesGenerator from './components/pages/Admin/Reportes/ReportesGenerator';
+import PanelReclamos from './components/pages/Admin/Reclamos/PanelReclamos';
 
 // Componentes Trabajador
 import TrabajadorDashboard from './components/pages/Trabajador/Dashboard';
@@ -25,6 +26,10 @@ import TecnicoDashboard from './components/pages/Tecnico/Dashboard';
 import TicketDetalleTecnico from './components/pages/Tecnico/TicketDetalle';
 import HistorialTecnico from './components/pages/Tecnico/Historial';
 import TicketsAsignadosTecnico from './components/pages/Tecnico/TicketsAsignados';
+import MisReclamos from './components/pages/Tecnico/MisReclamos';
+
+//Reclamos
+import MisReclamosCreados from './components/pages/Trabajador/MisReclamosCreados';
 
 import './App.css';
 
@@ -88,6 +93,14 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="/admin/reclamos"
+                element={
+                  <ProtectedRoute rolesPermitidos={[3]}>
+                    <PanelReclamos />
+                  </ProtectedRoute>
+                }
+              />
 
               {/* Rutas protegidas - Técnico */}
               <Route
@@ -124,6 +137,15 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="/tecnico/reclamos"
+                element={
+                  <ProtectedRoute rolesPermitidos={[1]}>
+                    <MisReclamos />
+                  </ProtectedRoute>
+                }
+              />
+
               {/* Rutas protegidas - Trabajador */}
               <Route
                 path="/trabajador/dashboard"
@@ -162,11 +184,18 @@ function App() {
                 path="/trabajador/tickets-pendientes"
                 element={
                   <ProtectedRoute rolesPermitidos={[2]}>
-                    <TicketsPendientes />  {/* ← CORRECTO */}
+                    <TicketsPendientes />
                   </ProtectedRoute>
                 }
               />
-              {/* ↑ RUTA AGREGADA */}
+              <Route
+                path="/trabajador/mis-reclamos"
+                element={
+                  <ProtectedRoute rolesPermitidos={[2]}>
+                    <MisReclamosCreados />
+                  </ProtectedRoute>
+                }
+              />
 
               {/* Redirección por defecto */}
               <Route path="/" element={<Navigate to="/login" replace />} />

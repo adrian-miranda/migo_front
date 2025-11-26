@@ -236,6 +236,17 @@ const TrabajadorDashboard = () => {
               <p>Tickets en espera de solución</p>
             </div>
           </button>
+
+          <button 
+            className={style.btnAccion}
+            onClick={() => navigate('/trabajador/mis-reclamos')}
+          >
+            <span className={style.iconoAccion}>📢</span>
+            <div>
+              <h3>Mis Reclamos</h3>
+              <p>Ver reclamos realizados</p>
+            </div>
+          </button>
         </div>
       </div>
 

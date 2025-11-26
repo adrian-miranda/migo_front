@@ -3,6 +3,7 @@
  * Muestra estadísticas generales, gráficos y lista de tickets
  */
 import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
 import { ticketsService } from '../../../api/ticketsService';
 import StatsCard from '../../molecules/StatsCard/StatsCard';
@@ -16,6 +17,7 @@ import style from './Dashboard.module.css';
 
 const AdminDashboard = () => {
   const { usuario } = useAuth();
+  const navigate = useNavigate();
   const [estadisticas, setEstadisticas] = useState(null);
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -207,6 +209,20 @@ const AdminDashboard = () => {
       <div className={style.iaSection}>
         <h2 className={style.sectionTitle}>🤖 Inteligencia Artificial</h2>
         <PanelIA />
+      </div>
+
+      {/* Panel de Reclamos */}
+      <div className={style.reclamosSection}>
+        <h2 className={style.sectionTitle}>📢 Sistema de Reclamos</h2>
+        <p className={style.reclamosDescripcion}>
+          Gestiona y responde los reclamos de usuarios sobre tickets y técnicos
+        </p>
+        <button 
+          className={style.btnVerReclamos}
+          onClick={() => navigate('/admin/reclamos')}
+        >
+          Ver Panel de Reclamos →
+        </button>
       </div>
 
       {/* Resumen por categoría */}

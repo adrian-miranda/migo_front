@@ -304,3 +304,34 @@
   margin-top: 30px;
   margin-bottom: 30px;
 }
+
+.reclamosSection {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  margin-top: 20px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.reclamosDescripcion {
+  color: #666;
+  margin: 10px 0 20px 0;
+  font-size: 14px;
+}
+
+.btnVerReclamos {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.btnVerReclamos:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}

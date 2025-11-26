@@ -1,0 +1,170 @@
+.container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin: 30px 0;
+}
+
+.statCard {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.statCard h3 {
+  font-size: 36px;
+  margin: 0 0 10px 0;
+  color: #667eea;
+}
+
+.statCard p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.reclamosList {
+  display: grid;
+  gap: 20px;
+}
+
+.reclamoCard {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-left: 4px solid #f5576c;
+}
+
+.reclamoHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.reclamoId {
+  font-weight: 600;
+  color: #333;
+}
+
+.badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.pendiente {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.resuelto {
+  background: #d4edda;
+  color: #155724;
+}
+
+.reclamoCard h3 {
+  margin: 0 0 15px 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.info {
+  margin: 15px 0;
+  display: grid;
+  gap: 8px;
+}
+
+.info p {
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.btnResponder {
+  background: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 15px;
+}
+
+.btnResponder:hover {
+  background: #0056b3;
+}
+
+.formRespuesta {
+  margin-top: 20px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.formRespuesta textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-family: inherit;
+  font-size: 14px;
+  resize: vertical;
+}
+
+.formRespuesta textarea:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.btnGroup {
+  display: flex;
+  gap: 10px;
+}
+
+.btnEnviar {
+  background: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  flex: 1;
+}
+
+.btnEnviar:hover {
+  background: #218838;
+}
+
+.btnCancelar {
+  background: #6c757d;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btnCancelar:hover {
+  background: #5a6268;
+}
